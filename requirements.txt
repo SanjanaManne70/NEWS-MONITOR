@@ -1,0 +1,20 @@
+# Flask Backend
+Flask==3.0.0
+Flask-CORS==4.0.0
+
+# Web Scraping
+selenium==4.15.2
+beautifulsoup4==4.12.2
+requests==2.31.0
+lxml==4.9.3
+webdriver-manager==4.0.1
+
+# NLP Libraries
+spacy==3.7.2
+textblob==0.17.1
+
+# Database
+# sqlite3 is built-in with Python
+
+# Additional utilities
+python-dateutil==2.8.2
