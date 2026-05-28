@@ -17,6 +17,7 @@ COPY . /app
 # 4️⃣ Install dependencies
 # -----------------------------
 RUN pip install --no-cache-dir -r requirements.txt
+RUN python -m spacy download en_core_web_sm
 
 # -----------------------------
 # 5️⃣ Expose port for Flask app
