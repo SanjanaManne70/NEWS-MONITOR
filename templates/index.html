@@ -726,7 +726,7 @@
                         <div class="headlines-list">
                             ${headlines.map(h => `
                                 <div class="headline-item ${h.sentiment_label}">
-                                    ${h.text}
+                                    ${h.headline}
                                     <div class="category-badge">${h.category}</div>
                                 </div>
                             `).join('')}
@@ -761,7 +761,7 @@
                 entities.slice(0, 20).forEach(entity => {
                     const tag = document.createElement('div');
                     tag.className = 'entity-tag';
-                    tag.textContent = `${entity.text} (${entity.count})`;
+                    tag.textContent = `${entity.entity} (${entity.count})`;
                     tag.style.fontSize = `${12 + Math.min(entity.count, 10)}px`;
                     entityCloud.appendChild(tag);
                 });
@@ -806,7 +806,7 @@
                         item.className = 'comp-item';
                         item.innerHTML = `
                             <div class="comp-item-source">Source: ${h.source}</div>
-                            <div class="comp-item-text">${h.text}</div>
+                            <div class="comp-item-text">${h.headline}</div>
                         `;
                         newList.appendChild(item);
                     });
@@ -856,7 +856,7 @@
                         ${group.map(h => `
                             <div class="similar-headline">
                                 <div class="similar-headline-source">${h.source}</div>
-                                <div class="similar-headline-text">${h.text}</div>
+                                <div class="similar-headline-text">${h.headline}</div>
                             </div>
                         `).join('')}
                     `;

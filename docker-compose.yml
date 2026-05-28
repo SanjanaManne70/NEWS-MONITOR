@@ -1,0 +1,39 @@
+version: '3.9'
+
+services:
+
+  mysql:
+    image: mysql:8.0
+
+    container_name: news_mysql
+
+    restart: always
+
+    environment:
+      MYSQL_ROOT_PASSWORD: sanju@2005
+      MYSQL_DATABASE: news_monitor
+
+    ports:
+      - "3307:3306"
+
+    volumes:
+      - mysql_data:/var/lib/mysql
+
+  flask-app:
+    build: .
+
+    container_name: news_flask
+
+    restart: always
+
+    ports:
+      - "5000:5000"
+
+    depends_on:
+      - mysql
+
+    env_file:
+      - .env
+
+volumes:
+  mysql_data:

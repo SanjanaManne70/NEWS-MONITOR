@@ -3,201 +3,371 @@ run_daily.py
 Safe daily scraper for News Headline Monitor
 Compatible with Jenkins automation
 """
-
-import threading
+import os
+from dotenv import load_dotenv
+import logging
+import mysql.connector
 from datetime import datetime
 import json
-import sqlite3
 import time
 import requests
 from bs4 import BeautifulSoup
-from difflib import SequenceMatcher
 
-# Try importing spaCy, fall back if not available
+load_dotenv()
+# ---------------- LOGGING ---------------- #
+
+logging.basicConfig(
+    level=logging.INFO,
+    format='%(asctime)s [%(levelname)s] %(message)s',
+    handlers=[
+        logging.FileHandler("news_monitor.log"),
+        logging.StreamHandler()
+    ]
+)
+
+logger = logging.getLogger(__name__)
+
+# ---------------- MYSQL ---------------- #
+
+def get_db_connection():
+    return mysql.connector.connect(
+        host="localhost",
+        user="root",
+        password="sanju@2005",
+        database="news_monitor"
+    )
+
+# ---------------- SPACY ---------------- #
+
 try:
     import spacy
     nlp = spacy.load('en_core_web_sm')
 except Exception as e:
-    print(f"[WARN] spaCy not loaded: {e}")
+    logger.warning(f"spaCy not loaded: {e}")
     nlp = None
 
-# TextBlob for sentiment
+# ---------------- TEXTBLOB ---------------- #
+
 try:
     from textblob import TextBlob
 except ImportError:
-    print("[ERROR] Install textblob: pip install textblob")
+    logger.error("Install textblob: pip install textblob")
     exit(1)
 
-# Selenium for dynamic sites
+# ---------------- SELENIUM ---------------- #
+
 try:
     from selenium import webdriver
     from selenium.webdriver.chrome.options import Options
     from selenium.webdriver.common.by import By
 except ImportError:
-    print("[WARN] Selenium not installed, dynamic scraping disabled")
+    logger.warning("Selenium not installed")
     webdriver = None
 
-# --- Configuration ---
+# ---------------- NEWS SOURCES ---------------- #
+
 NEWS_SOURCES = {
+
     "THE HINDU": {
         "url": "https://www.thehindu.com/news/feeder/default.rss",
         "type": "static",
-        "selectors": ["h2.title a", ".story-card-text a", ".title a", ".story-element a"]
+        "selectors": [
+            "h2.title a",
+            ".story-card-text a",
+            ".title a",
+            ".story-element a"
+        ]
     },
+
     "TIMES OF INDIA": {
         "url": "https://timesofindia.indiatimes.com/rssfeedstopstories.cms",
         "type": "dynamic",
         "selectors": ["a", "h3"]
     }
-    # Add other sources as needed
 }
 
-DB_FILE = "news_monitor.db"
+# ---------------- NLP ---------------- #
 
-# --- Helper functions ---
 def analyze_sentiment(text):
+
     blob = TextBlob(text)
+
     polarity = blob.sentiment.polarity
+
     if polarity > 0.1:
         label = "positive"
+
     elif polarity < -0.1:
         label = "negative"
+
     else:
         label = "neutral"
-    return {"score": polarity, "label": label}
+
+    return {
+        "score": polarity,
+        "label": label
+    }
 
 def extract_entities(text):
+
     if not nlp:
         return []
+
     doc = nlp(text)
+
     entities = []
+
     for ent in doc.ents:
-        if ent.label_ in ['PERSON', 'ORG', 'GPE', 'EVENT', 'PRODUCT']:
-            entities.append({'text': ent.text, 'label': ent.label_})
+
+        if ent.label_ in [
+            'PERSON',
+            'ORG',
+            'GPE',
+            'EVENT',
+            'PRODUCT'
+        ]:
+
+            entities.append({
+                'text': ent.text,
+                'label': ent.label_
+            })
+
     return entities
 
+# ---------------- STATIC SCRAPER ---------------- #
+
 def scrape_static_source(source_name, config):
-    """
-    Scrape static sources: either XML RSS feeds or normal HTML pages.
-    """
+
     try:
+
         headers = {
-            'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36'
+            'User-Agent': 'Mozilla/5.0'
         }
 
-        r = requests.get(config['url'], headers=headers, timeout=10)
+        response = requests.get(
+            config['url'],
+            headers=headers,
+            timeout=10
+        )
 
         headlines = set()
 
-        # Determine if it's an XML RSS feed (common for news sites)
-        if r.headers.get('Content-Type', '').startswith('application/rss') or '.rss' in config['url']:
-            # Parse as XML
-            soup = BeautifulSoup(r.content, 'xml')
+        if (
+            response.headers.get(
+                'Content-Type',
+                ''
+            ).startswith('application/rss')
+
+            or '.rss' in config['url']
+        ):
+
+            soup = BeautifulSoup(
+                response.content,
+                'xml'
+            )
+
             for item in soup.find_all('item'):
+
                 title = item.title.text if item.title else ''
+
                 if title and 15 < len(title) < 300:
                     headlines.add(title)
+
         else:
-            # Parse as HTML for normal web pages
-            soup = BeautifulSoup(r.content, 'html.parser')
+
+            soup = BeautifulSoup(
+                response.content,
+                'html.parser'
+            )
+
             for selector in config['selectors']:
+
                 elements = soup.select(selector)
+
                 for elem in elements:
+
                     text = elem.get_text(strip=True)
+
                     if text and 15 < len(text) < 300:
                         headlines.add(text)
 
-        print(f"[INFO] {source_name} fetched {len(headlines)} headlines.")
+        logger.info(
+            f"{source_name} fetched {len(headlines)} headlines"
+        )
+
         return list(headlines)[:30]
 
     except Exception as e:
-        print(f"[ERROR] Scraping {source_name}: {e}")
+
+        logger.error(
+            f"Scraping error for {source_name}: {e}"
+        )
+
         return []
 
-    try:
-        headers = {'User-Agent': 'Mozilla/5.0'}
-        r = requests.get(config['url'], headers=headers, timeout=10)
-        soup = BeautifulSoup(r.content, 'html.parser')
-        headlines = set()
-        for sel in config['selectors']:
-            for elem in soup.select(sel):
-                text = elem.get_text(strip=True)
-                if text and 15 < len(text) < 300:
-                    headlines.add(text)
-        return list(headlines)[:30]
-    except Exception as e:
-        print(f"[ERROR] Static scrape failed: {e}")
-        return []
+# ---------------- DYNAMIC SCRAPER ---------------- #
 
-def scrape_dynamic_source(config):
+def scrape_dynamic_source(source_name, config):
+
     if not webdriver:
         return []
+
     try:
+
         options = Options()
+
         options.add_argument("--headless")
+        options.add_argument("--no-sandbox")
+        options.add_argument("--disable-dev-shm-usage")
+
         driver = webdriver.Chrome(options=options)
+
         driver.get(config['url'])
+
         time.sleep(3)
+
         headlines = set()
-        for sel in config['selectors']:
-            for elem in driver.find_elements(By.CSS_SELECTOR, sel):
+
+        for selector in config['selectors']:
+
+            elements = driver.find_elements(
+                By.CSS_SELECTOR,
+                selector
+            )
+
+            for elem in elements:
+
                 text = elem.text.strip()
+
                 if text and 15 < len(text) < 300:
                     headlines.add(text)
+
         driver.quit()
+
+        logger.info(
+            f"{source_name} fetched {len(headlines)} headlines"
+        )
+
         return list(headlines)[:30]
+
     except Exception as e:
-        print(f"[ERROR] Dynamic scrape failed: {e}")
+
+        logger.error(
+            f"Dynamic scraping error for {source_name}: {e}"
+        )
+
         return []
 
+# ---------------- MAIN SCRAPER ---------------- #
+
 def scrape_all_sources():
+
     now = datetime.now()
+
     date_str = now.strftime("%Y-%m-%d")
     time_str = now.strftime("%H:%M:%S")
 
     all_headlines = []
 
     for source, cfg in NEWS_SOURCES.items():
-        print(f"[INFO] Scraping {source}...")
-        if cfg['type'] == 'static':
-            headlines = scrape_static_source(cfg)
-        else:
-            headlines = scrape_dynamic_source(cfg)
 
-        for h in headlines:
-            sentiment = analyze_sentiment(h)
-            entities = extract_entities(h)
-            headline_obj = {
+        logger.info(f"Scraping {source}...")
+
+        if cfg['type'] == 'static':
+            headlines = scrape_static_source(source, cfg)
+
+        else:
+            headlines = scrape_dynamic_source(source, cfg)
+
+        for headline in headlines:
+
+            sentiment = analyze_sentiment(headline)
+            entities = extract_entities(headline)
+
+            all_headlines.append({
+
                 "source": source,
-                "text": h,
+                "text": headline,
                 "url": cfg['url'],
-                "category": "General",  # Optional: add categorization
+                "category": "General",
                 "sentiment": sentiment['score'],
                 "sentiment_label": sentiment['label'],
                 "entities": json.dumps(entities)
-            }
-            all_headlines.append(headline_obj)
+            })
 
-    # Save to DB
-    conn = sqlite3.connect(DB_FILE)
+    # ---------------- SAVE TO MYSQL ---------------- #
+
+    conn = get_db_connection()
     cursor = conn.cursor()
+
+    # Remove today's old headlines
+    cursor.execute(
+        "DELETE FROM headlines WHERE scraped_date = %s",
+        (date_str,)
+    )
+
     for h in all_headlines:
+
         cursor.execute("""
-            INSERT INTO headlines
-            (source, headline, url, scraped_date, scraped_time, category, sentiment, sentiment_label, entities)
-            VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)
-        """, (h['source'], h['text'], h['url'], date_str, time_str,
-              h['category'], h['sentiment'], h['sentiment_label'], h['entities']))
+
+            INSERT IGNORE INTO headlines
+            (
+                source,
+                headline,
+                url,
+                scraped_date,
+                scraped_time,
+                category,
+                sentiment,
+                sentiment_label,
+                entities
+            )
+
+            VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s)
+
+        """, (
+
+            h['source'],
+            h['text'],
+            h['url'],
+            date_str,
+            time_str,
+            h['category'],
+            h['sentiment'],
+            h['sentiment_label'],
+            h['entities']
+
+        ))
+
     cursor.execute("""
-        INSERT INTO scrape_logs (scrape_datetime, total_headlines, status)
-        VALUES (?, ?, ?)
-    """, (now, len(all_headlines), "success"))
+
+        INSERT INTO scrape_logs
+        (
+            scrape_datetime,
+            total_headlines,
+            status
+        )
+
+        VALUES (%s, %s, %s)
+
+    """, (
+
+        now,
+        len(all_headlines),
+        "success"
+
+    ))
+
     conn.commit()
     conn.close()
 
-    print(f"[INFO] Scraping finished: {len(all_headlines)} headlines")
+    logger.info(
+        f"Scraping finished: {len(all_headlines)} headlines"
+    )
+
     return len(all_headlines)
 
-# --- Main entry point ---
+# ---------------- MAIN ---------------- #
+
 if __name__ == "__main__":
     scrape_all_sources()
