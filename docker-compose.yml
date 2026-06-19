@@ -10,8 +10,8 @@ services:
     restart: always
 
     environment:
-      MYSQL_ROOT_PASSWORD: sanju@2005
-      MYSQL_DATABASE: news_monitor
+      MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD}
+      MYSQL_DATABASE: ${MYSQL_DATABASE}
 
     ports:
       - "3307:3306"

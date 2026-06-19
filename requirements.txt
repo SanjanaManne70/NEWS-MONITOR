@@ -19,3 +19,4 @@ mysql-connector-python
 # Additional utilities
 python-dateutil==2.8.2
 python-dotenv
+gunicorn==21.2.0

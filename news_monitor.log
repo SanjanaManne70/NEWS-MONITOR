@@ -528,3 +528,173 @@
 2026-05-28 11:45:41,260 [INFO] Scraping TIMES OF INDIA...
 2026-05-28 11:45:47,920 [INFO] TIMES OF INDIA fetched 0 headlines
 2026-05-28 11:45:52,011 [INFO] Scraping finished: 30 headlines
+2026-05-29 07:12:27,065 [INFO] Scraping THE HINDU...
+2026-05-29 07:12:27,076 [ERROR] Scraping error for THE HINDU: HTTPSConnectionPool(host='www.thehindu.com', port=443): Max retries exceeded with url: /news/feeder/default.rss (Caused by NameResolutionError("<urllib3.connection.HTTPSConnection object at 0x000001D112A955D0>: Failed to resolve 'www.thehindu.com' ([Errno 11001] getaddrinfo failed)"))
+2026-05-29 07:12:27,076 [INFO] Scraping TIMES OF INDIA...
+2026-05-29 07:12:27,757 [WARNING] There was an error managing chrome (error sending request for url (https://googlechromelabs.github.io/chrome-for-testing/known-good-versions-with-downloads.json): error trying to connect: dns error: No such host is known. (os error 11001)); using driver found in the cache
+2026-05-29 12:16:55,657 [ERROR] Dynamic scraping error for TIMES OF INDIA: Message: timeout: Timed out receiving message from renderer: 300.000
+  (Session info: chrome=148.0.7778.179)
+Stacktrace:
+	chromedriver!GetHandleVerifier [0x7ff7b7787de5+14895]
+	chromedriver!GetHandleVerifier [0x7ff7b7787e50+14900]
+	chromedriver!(No symbol) [0x7ff7b74ed5ad]
+	chromedriver!(No symbol) [0x7ff7b74da1f9]
+	chromedriver!(No symbol) [0x7ff7b74d9ee1]
+	chromedriver!(No symbol) [0x7ff7b74d7b11]
+	chromedriver!(No symbol) [0x7ff7b74d844f]
+	chromedriver!(No symbol) [0x7ff7b74e796a]
+	chromedriver!(No symbol) [0x7ff7b74ff020]
+	chromedriver!(No symbol) [0x7ff7b75949ea]
+	chromedriver!(No symbol) [0x7ff7b7539df8]
+	chromedriver!(No symbol) [0x7ff7b753ace3]
+	chromedriver!GetHandleVerifier [0x7ff7b7a9cc49+3296f9]
+	chromedriver!GetHandleVerifier [0x7ff7b7a97375+323e25]
+	chromedriver!GetHandleVerifier [0x7ff7b7abbc82+348732]
+	chromedriver!GetHandleVerifier [0x7ff7b77a6045+32af5]
+	chromedriver!GetHandleVerifier [0x7ff7b77aecec+3b79c]
+	chromedriver!GetHandleVerifier [0x7ff7b7791bc4+1e674]
+	chromedriver!GetHandleVerifier [0x7ff7b7791d54+1e804]
+	chromedriver!GetHandleVerifier [0x7ff7b77760e7+2b97]
+	KERNEL32!BaseThreadInitThunk [0x7ffd574d259d+1d]
+	ntdll!RtlUserThreadStart [0x7ffd5824af78+28]
+
+2026-05-29 12:17:00,337 [INFO] Scraping finished: 0 headlines
+2026-05-30 11:25:02,777 [INFO] Scraping THE HINDU...
+2026-05-30 11:25:03,022 [INFO] THE HINDU fetched 60 headlines
+2026-05-30 11:25:03,173 [INFO] Scraping TIMES OF INDIA...
+2026-05-30 11:25:10,677 [INFO] TIMES OF INDIA fetched 0 headlines
+2026-05-30 11:25:14,936 [INFO] Scraping finished: 30 headlines
+2026-05-31 09:24:59,375 [INFO] Scraping THE HINDU...
+2026-05-31 09:24:59,529 [INFO] THE HINDU fetched 59 headlines
+2026-05-31 09:24:59,661 [INFO] Scraping TIMES OF INDIA...
+2026-05-31 09:25:07,209 [INFO] TIMES OF INDIA fetched 0 headlines
+2026-05-31 09:25:11,459 [INFO] Scraping finished: 30 headlines
+2026-06-01 22:12:10,127 [INFO] Scraping THE HINDU...
+2026-06-01 22:12:10,333 [INFO] THE HINDU fetched 60 headlines
+2026-06-01 22:12:10,793 [INFO] Scraping TIMES OF INDIA...
+2026-06-01 22:12:18,642 [INFO] TIMES OF INDIA fetched 0 headlines
+2026-06-01 22:12:22,755 [INFO] Scraping finished: 30 headlines
+2026-06-02 07:08:01,203 [INFO] Scraping THE HINDU...
+2026-06-02 07:08:01,357 [INFO] THE HINDU fetched 60 headlines
+2026-06-02 07:08:01,702 [INFO] Scraping TIMES OF INDIA...
+2026-06-02 07:08:09,556 [INFO] TIMES OF INDIA fetched 0 headlines
+2026-06-02 07:08:13,854 [INFO] Scraping finished: 30 headlines
+2026-06-03 09:48:33,385 [INFO] Scraping THE HINDU...
+2026-06-03 09:48:33,572 [INFO] THE HINDU fetched 60 headlines
+2026-06-03 09:48:34,022 [INFO] Scraping TIMES OF INDIA...
+2026-06-03 09:48:42,328 [INFO] TIMES OF INDIA fetched 0 headlines
+2026-06-03 09:48:46,936 [INFO] Scraping finished: 30 headlines
+2026-06-04 07:08:03,972 [INFO] Scraping THE HINDU...
+2026-06-04 07:08:04,273 [INFO] THE HINDU fetched 60 headlines
+2026-06-04 07:08:04,740 [INFO] Scraping TIMES OF INDIA...
+2026-06-04 07:08:45,072 [INFO] TIMES OF INDIA fetched 0 headlines
+2026-06-04 07:08:49,404 [INFO] Scraping finished: 30 headlines
+2026-06-05 09:32:13,304 [INFO] Scraping THE HINDU...
+2026-06-05 09:32:13,316 [ERROR] Scraping error for THE HINDU: HTTPSConnectionPool(host='www.thehindu.com', port=443): Max retries exceeded with url: /news/feeder/default.rss (Caused by NameResolutionError("<urllib3.connection.HTTPSConnection object at 0x0000020092E23D50>: Failed to resolve 'www.thehindu.com' ([Errno 11001] getaddrinfo failed)"))
+2026-06-05 09:32:13,317 [INFO] Scraping TIMES OF INDIA...
+2026-06-05 09:32:14,174 [WARNING] There was an error managing chrome (error sending request for url (https://googlechromelabs.github.io/chrome-for-testing/known-good-versions-with-downloads.json): error trying to connect: dns error: No such host is known. (os error 11001)); using driver found in the cache
+2026-06-05 09:32:24,573 [INFO] TIMES OF INDIA fetched 0 headlines
+2026-06-05 09:32:28,685 [INFO] Scraping finished: 0 headlines
+2026-06-06 20:34:38,202 [INFO] Scraping THE HINDU...
+2026-06-06 20:34:38,350 [INFO] THE HINDU fetched 60 headlines
+2026-06-06 20:34:38,818 [INFO] Scraping TIMES OF INDIA...
+2026-06-06 20:34:47,283 [INFO] TIMES OF INDIA fetched 0 headlines
+2026-06-06 20:34:51,438 [INFO] Scraping finished: 30 headlines
+2026-06-07 07:08:02,252 [INFO] Scraping THE HINDU...
+2026-06-07 07:08:02,395 [INFO] THE HINDU fetched 59 headlines
+2026-06-07 07:08:02,789 [INFO] Scraping TIMES OF INDIA...
+2026-06-07 07:08:10,507 [INFO] TIMES OF INDIA fetched 0 headlines
+2026-06-07 07:08:14,924 [INFO] Scraping finished: 30 headlines
+2026-06-08 09:40:52,725 [INFO] Scraping THE HINDU...
+2026-06-08 09:40:52,736 [ERROR] Scraping error for THE HINDU: HTTPSConnectionPool(host='www.thehindu.com', port=443): Max retries exceeded with url: /news/feeder/default.rss (Caused by NameResolutionError("<urllib3.connection.HTTPSConnection object at 0x000002323C9555D0>: Failed to resolve 'www.thehindu.com' ([Errno 11001] getaddrinfo failed)"))
+2026-06-08 09:40:52,737 [INFO] Scraping TIMES OF INDIA...
+2026-06-08 09:40:53,441 [WARNING] There was an error managing chrome (error sending request for url (https://googlechromelabs.github.io/chrome-for-testing/known-good-versions-with-downloads.json): error trying to connect: dns error: No such host is known. (os error 11001)); using driver found in the cache
+2026-06-08 09:41:11,346 [INFO] TIMES OF INDIA fetched 0 headlines
+2026-06-08 09:41:15,567 [INFO] Scraping finished: 0 headlines
+2026-06-09 07:08:00,069 [INFO] Scraping THE HINDU...
+2026-06-09 07:08:00,224 [INFO] THE HINDU fetched 60 headlines
+2026-06-09 07:08:00,626 [INFO] Scraping TIMES OF INDIA...
+2026-06-09 07:08:08,252 [INFO] TIMES OF INDIA fetched 0 headlines
+2026-06-09 07:08:12,864 [INFO] Scraping finished: 30 headlines
+2026-06-10 07:07:55,878 [INFO] Scraping THE HINDU...
+2026-06-10 07:07:56,152 [INFO] THE HINDU fetched 60 headlines
+2026-06-10 07:07:56,553 [INFO] Scraping TIMES OF INDIA...
+2026-06-10 07:08:08,978 [INFO] TIMES OF INDIA fetched 0 headlines
+2026-06-10 07:08:13,378 [INFO] Scraping finished: 30 headlines
+2026-06-11 11:03:47,798 [INFO] Scraping THE HINDU...
+2026-06-11 11:03:48,008 [INFO] THE HINDU fetched 60 headlines
+2026-06-11 11:03:48,605 [INFO] Scraping TIMES OF INDIA...
+2026-06-11 11:03:56,566 [INFO] TIMES OF INDIA fetched 0 headlines
+2026-06-11 11:04:00,794 [INFO] Scraping finished: 30 headlines
+2026-06-12 07:07:52,169 [INFO] Scraping THE HINDU...
+2026-06-12 07:07:52,351 [INFO] THE HINDU fetched 60 headlines
+2026-06-12 07:07:53,086 [INFO] Scraping TIMES OF INDIA...
+2026-06-12 07:08:06,640 [INFO] TIMES OF INDIA fetched 0 headlines
+2026-06-12 07:08:10,903 [INFO] Scraping finished: 30 headlines
+2026-06-13 07:07:47,910 [INFO] Scraping THE HINDU...
+2026-06-13 07:07:48,098 [INFO] THE HINDU fetched 60 headlines
+2026-06-13 07:07:48,240 [INFO] Scraping TIMES OF INDIA...
+2026-06-13 07:07:56,234 [INFO] TIMES OF INDIA fetched 0 headlines
+2026-06-13 07:08:00,384 [INFO] Scraping finished: 30 headlines
+2026-06-14 11:03:39,743 [INFO] Scraping THE HINDU...
+2026-06-14 11:03:39,964 [INFO] THE HINDU fetched 60 headlines
+2026-06-14 11:03:40,823 [INFO] Scraping TIMES OF INDIA...
+2026-06-14 11:03:49,575 [INFO] TIMES OF INDIA fetched 0 headlines
+2026-06-14 11:03:53,744 [INFO] Scraping finished: 30 headlines
+2026-06-15 08:04:59,055 [INFO] Scraping THE HINDU...
+2026-06-15 08:04:59,078 [ERROR] Scraping error for THE HINDU: HTTPSConnectionPool(host='www.thehindu.com', port=443): Max retries exceeded with url: /news/feeder/default.rss (Caused by NameResolutionError("<urllib3.connection.HTTPSConnection object at 0x0000020307818750>: Failed to resolve 'www.thehindu.com' ([Errno 11001] getaddrinfo failed)"))
+2026-06-15 08:04:59,078 [INFO] Scraping TIMES OF INDIA...
+2026-06-15 08:05:10,952 [WARNING] There was an error managing chrome (error sending request for url (https://googlechromelabs.github.io/chrome-for-testing/known-good-versions-with-downloads.json): error trying to connect: dns error: No such host is known. (os error 11001)); using driver found in the cache
+2026-06-15 08:05:18,352 [INFO] TIMES OF INDIA fetched 0 headlines
+2026-06-15 08:05:22,461 [INFO] Scraping finished: 0 headlines
+2026-06-16 07:07:39,883 [INFO] Scraping THE HINDU...
+2026-06-16 07:07:40,102 [INFO] THE HINDU fetched 60 headlines
+2026-06-16 07:07:40,873 [INFO] Scraping TIMES OF INDIA...
+2026-06-16 07:07:49,116 [INFO] TIMES OF INDIA fetched 0 headlines
+2026-06-16 07:07:53,380 [INFO] Scraping finished: 30 headlines
+2026-06-17 08:02:01,616 [INFO] Scraping THE HINDU...
+2026-06-17 08:02:01,632 [ERROR] Scraping error for THE HINDU: HTTPSConnectionPool(host='www.thehindu.com', port=443): Max retries exceeded with url: /news/feeder/default.rss (Caused by NameResolutionError("<urllib3.connection.HTTPSConnection object at 0x0000020165AA55D0>: Failed to resolve 'www.thehindu.com' ([Errno 11001] getaddrinfo failed)"))
+2026-06-17 08:02:01,632 [INFO] Scraping TIMES OF INDIA...
+2026-06-17 08:02:02,434 [WARNING] There was an error managing chrome (error sending request for url (https://googlechromelabs.github.io/chrome-for-testing/known-good-versions-with-downloads.json): error trying to connect: dns error: No such host is known. (os error 11001)); using driver found in the cache
+2026-06-17 08:02:04,370 [ERROR] Dynamic scraping error for TIMES OF INDIA: Message: unknown error: net::ERR_INTERNET_DISCONNECTED
+  (Session info: chrome=149.0.7827.103)
+Stacktrace:
+	chromedriver!GetHandleVerifier [0x7ff7dd073435+14875]
+	chromedriver!GetHandleVerifier [0x7ff7dd073490+148d0]
+	chromedriver!(No symbol) [0x7ff7dcbc778d]
+	chromedriver!(No symbol) [0x7ff7dcbc432e]
+	chromedriver!(No symbol) [0x7ff7dcbb4591]
+	chromedriver!(No symbol) [0x7ff7dcbb63ff]
+	chromedriver!(No symbol) [0x7ff7dcbb4b33]
+	chromedriver!(No symbol) [0x7ff7dcbb42fb]
+	chromedriver!(No symbol) [0x7ff7dcbb3fb1]
+	chromedriver!(No symbol) [0x7ff7dcbb1c67]
+	chromedriver!(No symbol) [0x7ff7dcbb23e2]
+	chromedriver!(No symbol) [0x7ff7dcbcba36]
+	chromedriver!(No symbol) [0x7ff7dcc6f824]
+	chromedriver!(No symbol) [0x7ff7dcc4a27a]
+	chromedriver!(No symbol) [0x7ff7dcc6e9fc]
+	chromedriver!(No symbol) [0x7ff7dcc13eb0]
+	chromedriver!(No symbol) [0x7ff7dcc14e23]
+	chromedriver!GetHandleVerifier [0x7ff7dd656c91+5f80d1]
+	chromedriver!GetHandleVerifier [0x7ff7dd65101b+5f245b]
+	chromedriver!GetHandleVerifier [0x7ff7dd676305+617745]
+	chromedriver!GetHandleVerifier [0x7ff7dd0903ee+3182e]
+	chromedriver!GetHandleVerifier [0x7ff7dd098b0c+39f4c]
+	chromedriver!GetHandleVerifier [0x7ff7dd07cb04+1df44]
+	chromedriver!GetHandleVerifier [0x7ff7dd07cc94+1e0d4]
+	chromedriver!GetHandleVerifier [0x7ff7dd060997+1dd7]
+	KERNEL32!BaseThreadInitThunk [0x7fff5db9259d+1d]
+	ntdll!RtlUserThreadStart [0x7fff5e48af78+28]
+
+2026-06-17 08:02:06,510 [INFO] Scraping finished: 0 headlines
+2026-06-18 07:07:27,810 [INFO] Scraping THE HINDU...
+2026-06-18 07:07:27,992 [INFO] THE HINDU fetched 60 headlines
+2026-06-18 07:07:28,495 [INFO] Scraping TIMES OF INDIA...
+2026-06-18 07:07:40,696 [INFO] TIMES OF INDIA fetched 0 headlines
+2026-06-18 07:07:44,915 [INFO] Scraping finished: 30 headlines
+2026-06-19 09:38:20,849 [INFO] Scraping THE HINDU...
+2026-06-19 09:38:31,124 [INFO] THE HINDU fetched 60 headlines
+2026-06-19 09:38:32,067 [INFO] Scraping TIMES OF INDIA...
+2026-06-19 09:38:47,697 [INFO] TIMES OF INDIA fetched 0 headlines
+2026-06-19 09:38:52,033 [INFO] Scraping finished: 30 headlines

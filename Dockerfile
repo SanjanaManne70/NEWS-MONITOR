@@ -31,4 +31,4 @@ ENV FLASK_APP=app.py
 # -----------------------------
 # 7️⃣ Default command: run the app
 # -----------------------------
-CMD ["python", "app.py"]
+CMD ["gunicorn", "-b", "0.0.0.0:5000", "app:app"]
