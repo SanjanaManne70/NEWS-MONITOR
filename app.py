@@ -1,3 +1,4 @@
+
 """
 Flask Backend for News Headline Monitor
 Real-time scraping with sentiment analysis and comparison
@@ -21,6 +22,7 @@ from textblob import TextBlob
 import spacy
 from difflib import SequenceMatcher
 import json
+import re
 
 load_dotenv()
 # ---------------- LOGGING ---------------- #
@@ -45,10 +47,10 @@ CORS(app)
 
 def get_db_connection():
     return mysql.connector.connect(
-        host=os.getenv("DB_HOST"),
-        user=os.getenv("DB_USER"),
-        password=os.getenv("DB_PASSWORD"),
-        database=os.getenv("DB_NAME")
+        host="localhost",
+        user="root",
+        password="sanju@2005",
+        database="news_monitor"
     )
 
 # ---------------- SPACY ---------------- #
@@ -374,6 +376,79 @@ def calculate_similarity(text1, text2):
         text2.lower()
     ).ratio()
 
+
+# ---------------- HEADLINE COMPARISON HELPERS ---------------- #
+
+STOP_WORDS = {
+    'the', 'a', 'an', 'and', 'or', 'of', 'to', 'in', 'on',
+    'for', 'with', 'from', 'by', 'as', 'at', 'is', 'are',
+    'was', 'were', 'be', 'been', 'has', 'have', 'had',
+    'this', 'that', 'these', 'those', 'says', 'said',
+    'after', 'before', 'over', 'under', 'into', 'amid'
+}
+
+
+def get_important_words(text):
+    words = re.findall(r'\b[a-zA-Z]{3,}\b', text.lower())
+
+    return {
+        word for word in words
+        if word not in STOP_WORDS
+    }
+
+
+def calculate_word_overlap(text1, text2):
+    words1 = get_important_words(text1)
+    words2 = get_important_words(text2)
+
+    if not words1 or not words2:
+        return 0
+
+    common = words1.intersection(words2)
+    total = words1.union(words2)
+
+    return len(common) / len(total)
+
+
+def calculate_entity_overlap(text1, text2):
+    if nlp is None:
+        return 0
+
+    doc1 = nlp(text1)
+    doc2 = nlp(text2)
+
+    entities1 = {
+        ent.text.lower()
+        for ent in doc1.ents
+        if ent.label_ in ['PERSON', 'ORG', 'GPE', 'EVENT', 'PRODUCT']
+    }
+
+    entities2 = {
+        ent.text.lower()
+        for ent in doc2.ents
+        if ent.label_ in ['PERSON', 'ORG', 'GPE', 'EVENT', 'PRODUCT']
+    }
+
+    if not entities1 or not entities2:
+        return 0
+
+    common = entities1.intersection(entities2)
+    total = entities1.union(entities2)
+
+    return len(common) / len(total)
+
+
+def calculate_combined_similarity(text1, text2):
+    sequence_score = calculate_similarity(text1, text2)
+    word_score = calculate_word_overlap(text1, text2)
+    entity_score = calculate_entity_overlap(text1, text2)
+
+    return (
+        0.25 * sequence_score +
+        0.50 * word_score +
+        0.25 * entity_score
+    )
+
 # ---------------- ROUTES ---------------- #
 
 @app.route('/')
@@ -570,63 +645,82 @@ def get_comparison():
 
         # ---------------- COMPARISON LOGIC ---------------- #
 
-        yesterday_headlines = [
-            row['headline']
+        # Normalize yesterday's headlines for exact-match checking.
+        yesterday_headlines = {
+            row['headline'].lower().strip()
             for row in yesterday_rows
-        ]
+        }
 
         new_headlines = []
-
-        for row in today_rows:
-
-            if row['headline'] not in yesterday_headlines:
-
-                new_headlines.append({
-                    'source': row['source'],
-                    'headline': row['headline']
-                })
-
         updated_headlines = []
-
         used_yesterday = set()
 
         for today_item in today_rows:
+
+            today_headline = today_item['headline']
+
+            # ------------------------------------------------
+            # 1. EXACT MATCH -> UNCHANGED
+            # ------------------------------------------------
+
+            if today_headline.lower().strip() in yesterday_headlines:
+                continue
+
+            # ------------------------------------------------
+            # 2. FIND THE BEST PREVIOUS-DAY MATCH
+            # ------------------------------------------------
+
+            best_match = None
+            best_score = 0
+            best_index = None
 
             for idx, yesterday_item in enumerate(yesterday_rows):
 
                 if idx in used_yesterday:
                     continue
 
-                similarity = calculate_similarity(
-                    today_item['headline'],
+                score = calculate_combined_similarity(
+                    today_headline,
                     yesterday_item['headline']
                 )
 
-                if 0.6 < similarity < 0.95:
+                if score > best_score:
+                    best_score = score
+                    best_match = yesterday_item
+                    best_index = idx
 
-                    updated_headlines.append({
+            # ------------------------------------------------
+            # 3. CLASSIFY THE HEADLINE
+            # ------------------------------------------------
 
-                        'today': {
-                            'source': today_item['source'],
-                            'headline': today_item['headline']
-                        },
+            if best_match is not None and best_score >= 0.25:
 
-                        'yesterday': {
-                            'source': yesterday_item['source'],
-                            'headline': yesterday_item['headline']
-                        }
+                updated_headlines.append({
+                    'today': {
+                        'source': today_item['source'],
+                        'headline': today_headline
+                    },
+                    'yesterday': {
+                        'source': best_match['source'],
+                        'headline': best_match['headline']
+                    },
+                    'similarity': round(best_score, 2)
+                })
 
-                    })
+                used_yesterday.add(best_index)
 
-                    used_yesterday.add(idx)
+            else:
 
-                    break
+                new_headlines.append({
+                    'source': today_item['source'],
+                    'headline': today_headline
+                })
 
         unchanged_count = 0
 
         for row in today_rows:
 
-            if row['headline'] in yesterday_headlines:
+            if row['headline'].lower().strip() in yesterday_headlines:
                 unchanged_count += 1
 
         return jsonify({
