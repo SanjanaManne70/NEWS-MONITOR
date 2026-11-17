@@ -23,7 +23,7 @@ import spacy
 from difflib import SequenceMatcher
 import json
 import re
-
+from query_assistant import process_natural_language_query
 load_dotenv()
 # ---------------- LOGGING ---------------- #
 
@@ -47,11 +47,14 @@ CORS(app)
 
 def get_db_connection():
     return mysql.connector.connect(
-        host="localhost",
-        user="root",
-        password="sanju@2005",
-        database="news_monitor"
+        
+        host=os.getenv("MYSQL_HOST", "mysql"),
+        port=int(os.getenv("MYSQL_PORT", 3306)),
+        user=os.getenv("MYSQL_USER", "root"),
+        password=os.getenv("MYSQL_ROOT_PASSWORD"),
+        database=os.getenv("MYSQL_DATABASE", "news_monitor")
     )
+    
 
 # ---------------- SPACY ---------------- #
 
@@ -61,6 +64,7 @@ except:
     nlp = None
 
 # ---------------- NEWS SOURCES ---------------- #
+
 
 NEWS_SOURCES = {
     "THE HINDU": {
@@ -82,38 +86,47 @@ NEWS_SOURCES = {
 
     "Al Jazeera": {
         "url": "https://www.aljazeera.com/xml/rss/all.xml",
-        "selectors": ["h3.gc__title", "span.gc__title__text", "article h3"],
-        "type": "static"
+        "type": "static",
+        "selectors": ["h3.gc__title", "span.gc__title__text", "article h3"]
     },
 
     "Associated Press": {
         "url": "https://apnews.com/rss",
-        "selectors": ["h2.PagePromo-title", "h3.PagePromo-title", "a.Link"],
-        "type": "static"
+        "type": "static",
+        "selectors": ["h2.PagePromo-title", "h3.PagePromo-title", "a.Link"]
     },
 
     "The Guardian": {
         "url": "https://www.theguardian.com/international",
-        "selectors": ["h3.card-headline", "span.js-headline-text"],
-        "type": "static"
+        "type": "static",
+        "selectors": ["h3.card-headline", "span.js-headline-text"]
     },
 
     "BBC News": {
         "url": "http://feeds.bbci.co.uk/news/rss.xml",
-        "selectors": ["h2[data-testid='card-headline']", "h3[data-testid='card-headline']"],
-        "type": "dynamic"
+        "type": "dynamic",
+        "selectors": [
+            "h2[data-testid='card-headline']",
+            "h3[data-testid='card-headline']"
+        ]
     },
 
     "Reuters": {
         "url": "https://feeds.reuters.com/reuters/topNews",
-        "selectors": ["h3[data-testid='Heading']", "a[data-testid='Link']"],
-        "type": "static"
+        "type": "static",
+        "selectors": [
+            "h3[data-testid='Heading']",
+            "a[data-testid='Link']"
+        ]
     },
 
     "CNN": {
         "url": "http://rss.cnn.com/rss/edition.rss",
-        "selectors": ["span.container__headline-text", "h3.cd__headline"],
-        "type": "dynamic"
+        "type": "dynamic",
+        "selectors": [
+            "span.container__headline-text",
+            "h3.cd__headline"
+        ]
     }
 }
 
@@ -410,50 +423,72 @@ def calculate_word_overlap(text1, text2):
     return len(common) / len(total)
 
 
-def calculate_entity_overlap(text1, text2):
-    if nlp is None:
-        return 0
+def get_entity_set(entities_json):
+    """Parse entities extracted during scraping; do not rerun spaCy per pair."""
+    try:
+        entities = json.loads(entities_json) if isinstance(entities_json, str) else (entities_json or [])
+        return {str(e.get("text", "")).strip().lower() for e in entities
+                if isinstance(e, dict) and e.get("label") in {"PERSON", "ORG", "GPE", "EVENT", "PRODUCT"} and e.get("text")}
+    except (json.JSONDecodeError, TypeError, AttributeError):
+        return set()
 
-    doc1 = nlp(text1)
-    doc2 = nlp(text2)
 
-    entities1 = {
-        ent.text.lower()
-        for ent in doc1.ents
-        if ent.label_ in ['PERSON', 'ORG', 'GPE', 'EVENT', 'PRODUCT']
-    }
-
-    entities2 = {
-        ent.text.lower()
-        for ent in doc2.ents
-        if ent.label_ in ['PERSON', 'ORG', 'GPE', 'EVENT', 'PRODUCT']
-    }
-
+def calculate_entity_overlap(entities1, entities2):
     if not entities1 or not entities2:
-        return 0
-
-    common = entities1.intersection(entities2)
-    total = entities1.union(entities2)
-
-    return len(common) / len(total)
+        return 0.0
+    union = entities1.union(entities2)
+    return len(entities1.intersection(entities2)) / len(union) if union else 0.0
 
 
-def calculate_combined_similarity(text1, text2):
+def calculate_combined_similarity(text1, text2, entities1=None, entities2=None):
     sequence_score = calculate_similarity(text1, text2)
     word_score = calculate_word_overlap(text1, text2)
-    entity_score = calculate_entity_overlap(text1, text2)
+    entity_score = calculate_entity_overlap(entities1 or set(), entities2 or set())
+    return 0.25 * sequence_score + 0.50 * word_score + 0.25 * entity_score
 
-    return (
-        0.25 * sequence_score +
-        0.50 * word_score +
-        0.25 * entity_score
-    )
 
 # ---------------- ROUTES ---------------- #
 
 @app.route('/')
 def index():
     return render_template('index.html')
+
+@app.route('/api/query', methods=['POST'])
+def natural_language_query():
+    conn = None
+    try:
+        data = request.get_json(silent=True) or {}
+        question = data.get('question', '')
+        history = data.get('history', [])
+
+        if not isinstance(question, str) or not question.strip():
+            return jsonify({'status': 'error', 'message': 'Please enter a question.'}), 400
+
+        # Browser-supplied context only: no conversation history is persisted.
+        if not isinstance(history, list):
+            history = []
+        history = [
+            item for item in history[-8:]
+            if isinstance(item, dict)
+            and item.get('role') in ('user', 'assistant')
+            and isinstance(item.get('content'), str)
+        ]
+
+        conn = get_db_connection()
+        result = process_natural_language_query(question.strip(), conn, history=history)
+        return jsonify(result)
+
+    except ValueError as e:
+        return jsonify({'status': 'error', 'message': str(e)}), 400
+    except Exception:
+        logger.exception("Natural language query failed")
+        return jsonify({
+            'status': 'error',
+            'message': 'The assistant is temporarily unavailable. Please try again in a moment.'
+        }), 503
+    finally:
+        if conn is not None:
+            conn.close()
 
 @app.route('/api/scrape', methods=['POST'])
 def trigger_scrape():
@@ -554,194 +589,74 @@ def get_todays_headlines():
 
 @app.route('/api/comparison')
 def get_comparison():
-
+    conn = None
     try:
-
-        conn = get_db_connection()
-
-        cursor = conn.cursor(dictionary=True)
-
         today = datetime.now().date()
         yesterday = today - timedelta(days=1)
+        conn = get_db_connection()
+        cursor = conn.cursor(dictionary=True)
 
-        # ---------------- TODAY HEADLINES ---------------- #
-
-        cursor.execute("""
-
-            SELECT
-                source,
-                headline,
-                sentiment_label
-
-            FROM headlines
-
-            WHERE scraped_date = %s
-
-        """, (today,))
-
+        cursor.execute("SELECT source, headline, sentiment_label, entities FROM headlines WHERE scraped_date = %s", (today,))
         today_rows = cursor.fetchall()
-
-        # ---------------- YESTERDAY ---------------- #
-
-        cursor.execute("""
-
-            SELECT
-                source,
-                headline
-
-            FROM headlines
-
-            WHERE scraped_date = %s
-
-        """, (yesterday,))
-
+        cursor.execute("SELECT source, headline, entities FROM headlines WHERE scraped_date = %s", (yesterday,))
         yesterday_rows = cursor.fetchall()
-
-        # ---------------- SOURCE STATS ---------------- #
-
         cursor.execute("""
-
-            SELECT
-
-                source,
-
-                COUNT(*) as total,
-
-                SUM(
-                    CASE
-                        WHEN sentiment_label = 'positive'
-                        THEN 1
-                        ELSE 0
-                    END
-                ) as positive,
-
-                SUM(
-                    CASE
-                        WHEN sentiment_label = 'neutral'
-                        THEN 1
-                        ELSE 0
-                    END
-                ) as neutral,
-
-                SUM(
-                    CASE
-                        WHEN sentiment_label = 'negative'
-                        THEN 1
-                        ELSE 0
-                    END
-                ) as negative
-
-            FROM headlines
-
-            WHERE scraped_date = %s
-
-            GROUP BY source
-
+            SELECT source, COUNT(*) AS total,
+                SUM(CASE WHEN sentiment_label = 'positive' THEN 1 ELSE 0 END) AS positive,
+                SUM(CASE WHEN sentiment_label = 'neutral' THEN 1 ELSE 0 END) AS neutral,
+                SUM(CASE WHEN sentiment_label = 'negative' THEN 1 ELSE 0 END) AS negative
+            FROM headlines WHERE scraped_date = %s GROUP BY source
         """, (today,))
-
         source_stats = cursor.fetchall()
-
+        cursor.close()
         conn.close()
+        conn = None
 
-        # ---------------- COMPARISON LOGIC ---------------- #
+        # Normalize and parse each stored entity list only once.
+        for row in today_rows + yesterday_rows:
+            row['_normalized'] = (row.get('headline') or '').lower().strip()
+            row['_entities'] = get_entity_set(row.get('entities'))
 
-        # Normalize yesterday's headlines for exact-match checking.
-        yesterday_headlines = {
-            row['headline'].lower().strip()
-            for row in yesterday_rows
-        }
-
-        new_headlines = []
-        updated_headlines = []
+        yesterday_headlines = {row['_normalized'] for row in yesterday_rows}
+        new_headlines, updated_headlines = [], []
         used_yesterday = set()
-
-        for today_item in today_rows:
-
-            today_headline = today_item['headline']
-
-            # ------------------------------------------------
-            # 1. EXACT MATCH -> UNCHANGED
-            # ------------------------------------------------
-
-            if today_headline.lower().strip() in yesterday_headlines:
-                continue
-
-            # ------------------------------------------------
-            # 2. FIND THE BEST PREVIOUS-DAY MATCH
-            # ------------------------------------------------
-
-            best_match = None
-            best_score = 0
-            best_index = None
-
-            for idx, yesterday_item in enumerate(yesterday_rows):
-
-                if idx in used_yesterday:
-                    continue
-
-                score = calculate_combined_similarity(
-                    today_headline,
-                    yesterday_item['headline']
-                )
-
-                if score > best_score:
-                    best_score = score
-                    best_match = yesterday_item
-                    best_index = idx
-
-            # ------------------------------------------------
-            # 3. CLASSIFY THE HEADLINE
-            # ------------------------------------------------
-
-            if best_match is not None and best_score >= 0.25:
-
-                updated_headlines.append({
-                    'today': {
-                        'source': today_item['source'],
-                        'headline': today_headline
-                    },
-                    'yesterday': {
-                        'source': best_match['source'],
-                        'headline': best_match['headline']
-                    },
-                    'similarity': round(best_score, 2)
-                })
-
-                used_yesterday.add(best_index)
-
-            else:
-
-                new_headlines.append({
-                    'source': today_item['source'],
-                    'headline': today_headline
-                })
-
         unchanged_count = 0
 
-        for row in today_rows:
-
-            if row['headline'].lower().strip() in yesterday_headlines:
+        for current in today_rows:
+            headline = current.get('headline') or ''
+            if current['_normalized'] in yesterday_headlines:
                 unchanged_count += 1
+                continue
 
-        return jsonify({
+            best_match, best_score, best_index = None, 0.0, None
+            for idx, previous in enumerate(yesterday_rows):
+                if idx in used_yesterday:
+                    continue
+                score = calculate_combined_similarity(
+                    headline, previous.get('headline') or '',
+                    current['_entities'], previous['_entities'])
+                if score > best_score:
+                    best_score, best_match, best_index = score, previous, idx
 
-            'sources': source_stats,
+            if best_match is not None and best_score >= 0.25:
+                updated_headlines.append({
+                    'today': {'source': current['source'], 'headline': headline},
+                    'yesterday': {'source': best_match['source'], 'headline': best_match['headline']},
+                    'similarity': round(best_score, 2)
+                })
+                used_yesterday.add(best_index)
+            else:
+                new_headlines.append({'source': current['source'], 'headline': headline})
 
-            'new': new_headlines,
-
-            'updated': updated_headlines,
-
-            'unchanged': unchanged_count,
-
-            'total_today': len(today_rows)
-
-        })
-
+        return jsonify({'sources': source_stats, 'new': new_headlines,
+                        'updated': updated_headlines, 'unchanged': unchanged_count,
+                        'total_today': len(today_rows)})
     except Exception as e:
-
-        return jsonify({
-            'error': str(e)
-        }), 500
+        logger.exception('Comparison endpoint failed')
+        return jsonify({'error': str(e)}), 500
+    finally:
+        if conn is not None and conn.is_connected():
+            conn.close()
 
 
 @app.route('/api/entities')

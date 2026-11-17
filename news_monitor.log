@@ -2023,3 +2023,667 @@ mysql.connector.errors.DatabaseError: 2005 (HY000): Unknown MySQL server host 'm
 2026-11-15 22:29:15,131 [INFO] 127.0.0.1 - - [15/Nov/2026 22:29:15] "GET /api/comparison HTTP/1.1" 200 -
 2026-11-15 22:29:15,646 [INFO] 127.0.0.1 - - [15/Nov/2026 22:29:15] "GET /api/similar-groups HTTP/1.1" 200 -
 2026-11-15 22:29:28,108 [INFO] 127.0.0.1 - - [15/Nov/2026 22:29:28] "GET /api/comparison HTTP/1.1" 200 -
+2026-11-16 21:53:11,848 [INFO] spaCy model loaded successfully
+2026-11-16 21:53:13,163 [INFO] Scraping THE HINDU...
+2026-11-16 21:53:13,333 [INFO] THE HINDU fetched 60 headlines
+2026-11-16 21:53:14,102 [INFO] Scraping TIMES OF INDIA...
+2026-11-16 21:53:15,204 [INFO] TIMES OF INDIA fetched 47 headlines
+2026-11-16 21:53:15,963 [INFO] Successful sources: ['THE HINDU', 'TIMES OF INDIA']
+2026-11-16 21:53:15,964 [INFO] Failed sources: []
+2026-11-16 21:53:16,262 [INFO] Scraping finished: 60 headlines
+2026-11-16 21:53:16,262 [INFO] Scraping status: success
+2026-11-16 21:53:16,264 [INFO] Daily scraping completed with 60 headlines
+2026-11-16 21:55:50,081 [INFO] [31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on all addresses (0.0.0.0)
+ * Running on http://127.0.0.1:5000
+ * Running on http://192.168.4.236:5000
+2026-11-16 21:55:50,081 [INFO] [33mPress CTRL+C to quit[0m
+2026-11-16 21:55:50,086 [INFO]  * Restarting with stat
+2026-11-16 21:55:52,693 [WARNING]  * Debugger is active!
+2026-11-16 21:55:52,705 [INFO]  * Debugger PIN: 593-947-247
+2026-11-16 21:55:54,761 [INFO] 127.0.0.1 - - [16/Nov/2026 21:55:54] "GET / HTTP/1.1" 200 -
+2026-11-16 21:55:54,920 [INFO] 127.0.0.1 - - [16/Nov/2026 21:55:54] "GET /api/last-scrape HTTP/1.1" 200 -
+2026-11-16 21:55:54,957 [INFO] 127.0.0.1 - - [16/Nov/2026 21:55:54] "GET /api/headlines/today HTTP/1.1" 200 -
+2026-11-16 21:55:55,016 [INFO] 127.0.0.1 - - [16/Nov/2026 21:55:55] "GET /api/entities HTTP/1.1" 200 -
+2026-11-16 21:55:55,028 [INFO] 127.0.0.1 - - [16/Nov/2026 21:55:55] "[33mGET /favicon.ico HTTP/1.1[0m" 404 -
+2026-11-16 21:55:55,947 [INFO] 127.0.0.1 - - [16/Nov/2026 21:55:55] "GET /api/similar-groups HTTP/1.1" 200 -
+2026-11-16 21:56:01,638 [INFO] Scraping THE HINDU...
+2026-11-16 21:56:01,640 [INFO] 127.0.0.1 - - [16/Nov/2026 21:56:01] "POST /api/scrape HTTP/1.1" 200 -
+2026-11-16 21:56:02,010 [INFO] THE HINDU fetched 60 headlines
+2026-11-16 21:56:03,567 [INFO] Scraping TIMES OF INDIA...
+2026-11-16 21:56:09,032 [INFO] 127.0.0.1 - - [16/Nov/2026 21:56:09] "GET /api/last-scrape HTTP/1.1" 200 -
+2026-11-16 21:56:13,984 [INFO] TIMES OF INDIA fetched 0 headlines
+2026-11-16 21:56:13,988 [INFO] Scraping Al Jazeera...
+2026-11-16 21:56:14,030 [INFO] 127.0.0.1 - - [16/Nov/2026 21:56:14] "GET /api/last-scrape HTTP/1.1" 200 -
+2026-11-16 21:56:14,202 [INFO] Al Jazeera fetched 25 headlines
+2026-11-16 21:56:15,327 [INFO] Scraping Associated Press...
+2026-11-16 21:56:15,513 [INFO] Associated Press fetched 0 headlines
+2026-11-16 21:56:15,518 [INFO] Scraping The Guardian...
+2026-11-16 21:56:16,048 [INFO] The Guardian fetched 0 headlines
+2026-11-16 21:56:16,052 [INFO] Scraping BBC News...
+2026-11-16 21:56:19,031 [INFO] 127.0.0.1 - - [16/Nov/2026 21:56:19] "GET /api/last-scrape HTTP/1.1" 200 -
+2026-11-16 21:56:23,008 [INFO] BBC News fetched 0 headlines
+2026-11-16 21:56:23,009 [INFO] Scraping Reuters...
+2026-11-16 21:56:23,053 [ERROR] Error scraping Reuters: HTTPSConnectionPool(host='feeds.reuters.com', port=443): Max retries exceeded with url: /reuters/topNews (Caused by NameResolutionError("HTTPSConnection(host='feeds.reuters.com', port=443): Failed to resolve 'feeds.reuters.com' ([Errno 11001] getaddrinfo failed)"))
+2026-11-16 21:56:23,054 [INFO] Scraping CNN...
+2026-11-16 21:56:24,024 [INFO] 127.0.0.1 - - [16/Nov/2026 21:56:24] "GET /api/last-scrape HTTP/1.1" 200 -
+2026-11-16 21:56:29,032 [INFO] 127.0.0.1 - - [16/Nov/2026 21:56:29] "GET /api/last-scrape HTTP/1.1" 200 -
+2026-11-16 21:56:30,304 [INFO] CNN fetched 0 headlines
+2026-11-16 21:56:30,448 [INFO] Scraping completed. Total headlines: 55
+2026-11-16 21:56:34,030 [INFO] 127.0.0.1 - - [16/Nov/2026 21:56:34] "GET /api/last-scrape HTTP/1.1" 200 -
+2026-11-16 21:56:39,025 [INFO] 127.0.0.1 - - [16/Nov/2026 21:56:39] "GET /api/last-scrape HTTP/1.1" 200 -
+2026-11-16 21:56:44,027 [INFO] 127.0.0.1 - - [16/Nov/2026 21:56:44] "GET /api/last-scrape HTTP/1.1" 200 -
+2026-11-16 21:56:49,019 [INFO] 127.0.0.1 - - [16/Nov/2026 21:56:49] "GET /api/last-scrape HTTP/1.1" 200 -
+2026-11-16 21:56:54,030 [INFO] 127.0.0.1 - - [16/Nov/2026 21:56:54] "GET /api/last-scrape HTTP/1.1" 200 -
+2026-11-16 21:56:59,022 [INFO] 127.0.0.1 - - [16/Nov/2026 21:56:59] "GET /api/last-scrape HTTP/1.1" 200 -
+2026-11-16 21:57:04,032 [INFO] 127.0.0.1 - - [16/Nov/2026 21:57:04] "GET /api/last-scrape HTTP/1.1" 200 -
+2026-11-16 21:57:09,034 [INFO] 127.0.0.1 - - [16/Nov/2026 21:57:09] "GET /api/last-scrape HTTP/1.1" 200 -
+2026-11-16 21:57:14,033 [INFO] 127.0.0.1 - - [16/Nov/2026 21:57:14] "GET /api/last-scrape HTTP/1.1" 200 -
+2026-11-16 21:57:19,032 [INFO] 127.0.0.1 - - [16/Nov/2026 21:57:19] "GET /api/last-scrape HTTP/1.1" 200 -
+2026-11-16 21:57:24,019 [INFO] 127.0.0.1 - - [16/Nov/2026 21:57:24] "GET /api/last-scrape HTTP/1.1" 200 -
+2026-11-16 21:57:29,028 [INFO] 127.0.0.1 - - [16/Nov/2026 21:57:29] "GET /api/last-scrape HTTP/1.1" 200 -
+2026-11-16 21:57:34,023 [INFO] 127.0.0.1 - - [16/Nov/2026 21:57:34] "GET /api/last-scrape HTTP/1.1" 200 -
+2026-11-16 21:57:39,034 [INFO] 127.0.0.1 - - [16/Nov/2026 21:57:39] "GET /api/last-scrape HTTP/1.1" 200 -
+2026-11-16 21:57:44,027 [INFO] 127.0.0.1 - - [16/Nov/2026 21:57:44] "GET /api/last-scrape HTTP/1.1" 200 -
+2026-11-16 21:57:49,028 [INFO] 127.0.0.1 - - [16/Nov/2026 21:57:49] "GET /api/last-scrape HTTP/1.1" 200 -
+2026-11-16 21:57:54,017 [INFO] 127.0.0.1 - - [16/Nov/2026 21:57:54] "GET /api/last-scrape HTTP/1.1" 200 -
+2026-11-16 21:57:59,032 [INFO] 127.0.0.1 - - [16/Nov/2026 21:57:59] "GET /api/last-scrape HTTP/1.1" 200 -
+2026-11-16 21:58:04,025 [INFO] 127.0.0.1 - - [16/Nov/2026 21:58:04] "GET /api/last-scrape HTTP/1.1" 200 -
+2026-11-16 21:58:09,026 [INFO] 127.0.0.1 - - [16/Nov/2026 21:58:09] "GET /api/last-scrape HTTP/1.1" 200 -
+2026-11-16 21:58:14,023 [INFO] 127.0.0.1 - - [16/Nov/2026 21:58:14] "GET /api/last-scrape HTTP/1.1" 200 -
+2026-11-16 21:58:19,030 [INFO] 127.0.0.1 - - [16/Nov/2026 21:58:19] "GET /api/last-scrape HTTP/1.1" 200 -
+2026-11-16 21:58:24,031 [INFO] 127.0.0.1 - - [16/Nov/2026 21:58:24] "GET /api/last-scrape HTTP/1.1" 200 -
+2026-11-16 21:58:27,636 [INFO] 127.0.0.1 - - [16/Nov/2026 21:58:27] "GET /api/comparison HTTP/1.1" 200 -
+2026-11-16 21:58:29,019 [INFO] 127.0.0.1 - - [16/Nov/2026 21:58:29] "GET /api/last-scrape HTTP/1.1" 200 -
+2026-11-16 21:58:34,013 [INFO] 127.0.0.1 - - [16/Nov/2026 21:58:34] "GET /api/last-scrape HTTP/1.1" 200 -
+2026-11-16 21:58:39,019 [INFO] 127.0.0.1 - - [16/Nov/2026 21:58:39] "GET /api/last-scrape HTTP/1.1" 200 -
+2026-11-16 21:58:44,019 [INFO] 127.0.0.1 - - [16/Nov/2026 21:58:44] "GET /api/last-scrape HTTP/1.1" 200 -
+2026-11-16 21:58:49,016 [INFO] 127.0.0.1 - - [16/Nov/2026 21:58:49] "GET /api/last-scrape HTTP/1.1" 200 -
+2026-11-16 21:58:54,010 [INFO] 127.0.0.1 - - [16/Nov/2026 21:58:54] "GET /api/last-scrape HTTP/1.1" 200 -
+2026-11-16 21:58:59,018 [INFO] 127.0.0.1 - - [16/Nov/2026 21:58:59] "GET /api/last-scrape HTTP/1.1" 200 -
+2026-11-16 21:59:04,006 [INFO] 127.0.0.1 - - [16/Nov/2026 21:59:04] "GET /api/last-scrape HTTP/1.1" 200 -
+2026-11-16 21:59:09,011 [INFO] 127.0.0.1 - - [16/Nov/2026 21:59:09] "GET /api/last-scrape HTTP/1.1" 200 -
+2026-11-16 21:59:14,012 [INFO] 127.0.0.1 - - [16/Nov/2026 21:59:14] "GET /api/last-scrape HTTP/1.1" 200 -
+2026-11-16 21:59:19,016 [INFO] 127.0.0.1 - - [16/Nov/2026 21:59:19] "GET /api/last-scrape HTTP/1.1" 200 -
+2026-11-16 21:59:24,024 [INFO] 127.0.0.1 - - [16/Nov/2026 21:59:24] "GET /api/last-scrape HTTP/1.1" 200 -
+2026-11-16 21:59:29,019 [INFO] 127.0.0.1 - - [16/Nov/2026 21:59:29] "GET /api/last-scrape HTTP/1.1" 200 -
+2026-11-16 21:59:34,010 [INFO] 127.0.0.1 - - [16/Nov/2026 21:59:34] "GET /api/last-scrape HTTP/1.1" 200 -
+2026-11-16 21:59:39,018 [INFO] 127.0.0.1 - - [16/Nov/2026 21:59:39] "GET /api/last-scrape HTTP/1.1" 200 -
+2026-11-16 21:59:44,014 [INFO] 127.0.0.1 - - [16/Nov/2026 21:59:44] "GET /api/last-scrape HTTP/1.1" 200 -
+2026-11-16 21:59:49,020 [INFO] 127.0.0.1 - - [16/Nov/2026 21:59:49] "GET /api/last-scrape HTTP/1.1" 200 -
+2026-11-16 21:59:54,025 [INFO] 127.0.0.1 - - [16/Nov/2026 21:59:54] "GET /api/last-scrape HTTP/1.1" 200 -
+2026-11-16 21:59:59,014 [INFO] 127.0.0.1 - - [16/Nov/2026 21:59:59] "GET /api/last-scrape HTTP/1.1" 200 -
+2026-11-16 22:00:04,019 [INFO] 127.0.0.1 - - [16/Nov/2026 22:00:04] "GET /api/last-scrape HTTP/1.1" 200 -
+2026-11-16 22:00:09,014 [INFO] 127.0.0.1 - - [16/Nov/2026 22:00:09] "GET /api/last-scrape HTTP/1.1" 200 -
+2026-11-16 22:00:14,016 [INFO] 127.0.0.1 - - [16/Nov/2026 22:00:14] "GET /api/last-scrape HTTP/1.1" 200 -
+2026-11-16 22:00:19,011 [INFO] 127.0.0.1 - - [16/Nov/2026 22:00:19] "GET /api/last-scrape HTTP/1.1" 200 -
+2026-11-16 22:00:24,019 [INFO] 127.0.0.1 - - [16/Nov/2026 22:00:24] "GET /api/last-scrape HTTP/1.1" 200 -
+2026-11-16 22:00:29,021 [INFO] 127.0.0.1 - - [16/Nov/2026 22:00:29] "GET /api/last-scrape HTTP/1.1" 200 -
+2026-11-16 22:00:34,014 [INFO] 127.0.0.1 - - [16/Nov/2026 22:00:34] "GET /api/last-scrape HTTP/1.1" 200 -
+2026-11-16 22:00:39,019 [INFO] 127.0.0.1 - - [16/Nov/2026 22:00:39] "GET /api/last-scrape HTTP/1.1" 200 -
+2026-11-16 22:00:44,021 [INFO] 127.0.0.1 - - [16/Nov/2026 22:00:44] "GET /api/last-scrape HTTP/1.1" 200 -
+2026-11-16 22:00:49,015 [INFO] 127.0.0.1 - - [16/Nov/2026 22:00:49] "GET /api/last-scrape HTTP/1.1" 200 -
+2026-11-16 22:00:54,018 [INFO] 127.0.0.1 - - [16/Nov/2026 22:00:54] "GET /api/last-scrape HTTP/1.1" 200 -
+2026-11-16 22:00:59,021 [INFO] 127.0.0.1 - - [16/Nov/2026 22:00:59] "GET /api/last-scrape HTTP/1.1" 200 -
+2026-11-16 22:01:04,030 [INFO] 127.0.0.1 - - [16/Nov/2026 22:01:04] "GET /api/last-scrape HTTP/1.1" 200 -
+2026-11-16 22:01:08,616 [INFO] 127.0.0.1 - - [16/Nov/2026 22:01:08] "GET / HTTP/1.1" 200 -
+2026-11-16 22:01:08,706 [INFO] 127.0.0.1 - - [16/Nov/2026 22:01:08] "GET /api/last-scrape HTTP/1.1" 200 -
+2026-11-16 22:01:09,109 [INFO] 127.0.0.1 - - [16/Nov/2026 22:01:09] "GET /api/entities HTTP/1.1" 200 -
+2026-11-16 22:01:09,266 [INFO] 127.0.0.1 - - [16/Nov/2026 22:01:09] "GET /api/headlines/today HTTP/1.1" 200 -
+2026-11-16 22:01:09,346 [INFO] 127.0.0.1 - - [16/Nov/2026 22:01:09] "GET /api/similar-groups HTTP/1.1" 200 -
+2026-11-16 22:01:17,490 [INFO] 127.0.0.1 - - [16/Nov/2026 22:01:17] "GET / HTTP/1.1" 200 -
+2026-11-16 22:01:17,620 [INFO] 127.0.0.1 - - [16/Nov/2026 22:01:17] "GET /api/last-scrape HTTP/1.1" 200 -
+2026-11-16 22:01:17,646 [INFO] 127.0.0.1 - - [16/Nov/2026 22:01:17] "GET /api/headlines/today HTTP/1.1" 200 -
+2026-11-16 22:01:17,667 [INFO] 127.0.0.1 - - [16/Nov/2026 22:01:17] "GET /api/entities HTTP/1.1" 200 -
+2026-11-16 22:01:18,541 [INFO] 127.0.0.1 - - [16/Nov/2026 22:01:18] "GET /api/similar-groups HTTP/1.1" 200 -
+2026-11-16 22:14:57,861 [INFO] 127.0.0.1 - - [16/Nov/2026 22:14:57] "GET /api/comparison HTTP/1.1" 200 -
+2026-11-16 22:16:09,367 [INFO] 127.0.0.1 - - [16/Nov/2026 22:16:09] "GET /api/comparison HTTP/1.1" 200 -
+2026-11-16 22:17:12,462 [INFO] 127.0.0.1 - - [16/Nov/2026 22:17:12] "GET /api/comparison HTTP/1.1" 200 -
+2026-11-16 22:17:14,784 [INFO] 127.0.0.1 - - [16/Nov/2026 22:17:14] "GET /api/comparison HTTP/1.1" 200 -
+2026-11-16 22:17:24,108 [INFO] 127.0.0.1 - - [16/Nov/2026 22:17:24] "GET /api/comparison HTTP/1.1" 200 -
+2026-11-16 22:17:38,138 [INFO] 127.0.0.1 - - [16/Nov/2026 22:17:38] "GET /api/comparison HTTP/1.1" 200 -
+2026-11-16 22:18:12,206 [INFO] 127.0.0.1 - - [16/Nov/2026 22:18:12] "GET /api/comparison HTTP/1.1" 200 -
+2026-11-16 22:31:29,921 [INFO] 127.0.0.1 - - [16/Nov/2026 22:31:29] "GET /api/comparison HTTP/1.1" 200 -
+2026-11-16 22:33:58,102 [INFO] 127.0.0.1 - - [16/Nov/2026 22:33:58] "GET /api/comparison?utm_source=chatgpt.com HTTP/1.1" 200 -
+2026-11-16 22:34:08,738 [INFO] 127.0.0.1 - - [16/Nov/2026 22:34:08] "GET /api/comparison HTTP/1.1" 200 -
+2026-11-16 22:34:42,131 [INFO] 127.0.0.1 - - [16/Nov/2026 22:34:42] "GET /api/comparison HTTP/1.1" 200 -
+2026-11-16 22:34:45,018 [INFO] 127.0.0.1 - - [16/Nov/2026 22:34:45] "GET /api/comparison HTTP/1.1" 200 -
+2026-11-16 22:34:51,520 [INFO] 127.0.0.1 - - [16/Nov/2026 22:34:51] "GET /api/comparison HTTP/1.1" 200 -
+2026-11-16 22:35:03,203 [INFO] 127.0.0.1 - - [16/Nov/2026 22:35:03] "GET /api/comparison HTTP/1.1" 200 -
+2026-11-16 22:35:30,214 [INFO] 127.0.0.1 - - [16/Nov/2026 22:35:30] "GET /api/comparison HTTP/1.1" 200 -
+2026-11-16 22:35:30,230 [INFO] Scraping THE HINDU...
+2026-11-16 22:35:30,235 [INFO] 127.0.0.1 - - [16/Nov/2026 22:35:30] "POST /api/scrape HTTP/1.1" 200 -
+2026-11-16 22:35:30,875 [INFO] THE HINDU fetched 60 headlines
+2026-11-16 22:35:35,025 [INFO] Scraping TIMES OF INDIA...
+2026-11-16 22:35:38,609 [INFO] 127.0.0.1 - - [16/Nov/2026 22:35:38] "GET /api/last-scrape HTTP/1.1" 200 -
+2026-11-16 22:35:42,963 [INFO] TIMES OF INDIA fetched 0 headlines
+2026-11-16 22:35:42,971 [INFO] Scraping Al Jazeera...
+2026-11-16 22:35:43,367 [INFO] Al Jazeera fetched 25 headlines
+2026-11-16 22:35:43,626 [INFO] 127.0.0.1 - - [16/Nov/2026 22:35:43] "GET /api/last-scrape HTTP/1.1" 200 -
+2026-11-16 22:35:46,511 [INFO] Scraping Associated Press...
+2026-11-16 22:35:46,849 [INFO] Associated Press fetched 0 headlines
+2026-11-16 22:35:46,868 [INFO] Scraping The Guardian...
+2026-11-16 22:35:47,311 [INFO] The Guardian fetched 0 headlines
+2026-11-16 22:35:47,342 [INFO] Scraping BBC News...
+2026-11-16 22:35:48,599 [INFO] 127.0.0.1 - - [16/Nov/2026 22:35:48] "GET /api/last-scrape HTTP/1.1" 200 -
+2026-11-16 22:35:53,607 [INFO] 127.0.0.1 - - [16/Nov/2026 22:35:53] "GET /api/last-scrape HTTP/1.1" 200 -
+2026-11-16 22:35:54,375 [INFO] BBC News fetched 0 headlines
+2026-11-16 22:35:54,376 [INFO] Scraping Reuters...
+2026-11-16 22:35:54,415 [ERROR] Error scraping Reuters: HTTPSConnectionPool(host='feeds.reuters.com', port=443): Max retries exceeded with url: /reuters/topNews (Caused by NameResolutionError("HTTPSConnection(host='feeds.reuters.com', port=443): Failed to resolve 'feeds.reuters.com' ([Errno 11001] getaddrinfo failed)"))
+2026-11-16 22:35:54,422 [INFO] Scraping CNN...
+2026-11-16 22:35:58,606 [INFO] 127.0.0.1 - - [16/Nov/2026 22:35:58] "GET /api/last-scrape HTTP/1.1" 200 -
+2026-11-16 22:36:01,664 [INFO] CNN fetched 0 headlines
+2026-11-16 22:36:01,909 [INFO] Scraping completed. Total headlines: 55
+2026-11-16 22:36:03,614 [INFO] 127.0.0.1 - - [16/Nov/2026 22:36:03] "GET /api/last-scrape HTTP/1.1" 200 -
+2026-11-16 22:36:08,611 [INFO] 127.0.0.1 - - [16/Nov/2026 22:36:08] "GET /api/last-scrape HTTP/1.1" 200 -
+2026-11-16 22:36:13,623 [INFO] 127.0.0.1 - - [16/Nov/2026 22:36:13] "GET /api/last-scrape HTTP/1.1" 200 -
+2026-11-16 22:36:18,616 [INFO] 127.0.0.1 - - [16/Nov/2026 22:36:18] "GET /api/last-scrape HTTP/1.1" 200 -
+2026-11-16 22:36:23,621 [INFO] 127.0.0.1 - - [16/Nov/2026 22:36:23] "GET /api/last-scrape HTTP/1.1" 200 -
+2026-11-16 22:36:28,667 [INFO] 127.0.0.1 - - [16/Nov/2026 22:36:28] "GET /api/last-scrape HTTP/1.1" 200 -
+2026-11-16 22:36:33,634 [INFO] 127.0.0.1 - - [16/Nov/2026 22:36:33] "GET /api/last-scrape HTTP/1.1" 200 -
+2026-11-16 22:36:38,619 [INFO] 127.0.0.1 - - [16/Nov/2026 22:36:38] "GET /api/last-scrape HTTP/1.1" 200 -
+2026-11-16 22:36:43,649 [INFO] 127.0.0.1 - - [16/Nov/2026 22:36:43] "GET /api/last-scrape HTTP/1.1" 200 -
+2026-11-16 22:36:48,610 [INFO] 127.0.0.1 - - [16/Nov/2026 22:36:48] "GET /api/last-scrape HTTP/1.1" 200 -
+2026-11-16 22:36:53,616 [INFO] 127.0.0.1 - - [16/Nov/2026 22:36:53] "GET /api/last-scrape HTTP/1.1" 200 -
+2026-11-16 22:36:58,631 [INFO] 127.0.0.1 - - [16/Nov/2026 22:36:58] "GET /api/last-scrape HTTP/1.1" 200 -
+2026-11-16 22:37:03,623 [INFO] 127.0.0.1 - - [16/Nov/2026 22:37:03] "GET /api/last-scrape HTTP/1.1" 200 -
+2026-11-16 22:37:08,624 [INFO] 127.0.0.1 - - [16/Nov/2026 22:37:08] "GET /api/last-scrape HTTP/1.1" 200 -
+2026-11-16 22:37:13,631 [INFO] 127.0.0.1 - - [16/Nov/2026 22:37:13] "GET /api/last-scrape HTTP/1.1" 200 -
+2026-11-16 22:37:18,602 [INFO] 127.0.0.1 - - [16/Nov/2026 22:37:18] "GET /api/last-scrape HTTP/1.1" 200 -
+2026-11-16 22:37:23,602 [INFO] 127.0.0.1 - - [16/Nov/2026 22:37:23] "GET /api/last-scrape HTTP/1.1" 200 -
+2026-11-16 22:37:28,604 [INFO] 127.0.0.1 - - [16/Nov/2026 22:37:28] "GET /api/last-scrape HTTP/1.1" 200 -
+2026-11-16 22:37:33,613 [INFO] 127.0.0.1 - - [16/Nov/2026 22:37:33] "GET /api/last-scrape HTTP/1.1" 200 -
+2026-11-16 22:37:38,623 [INFO] 127.0.0.1 - - [16/Nov/2026 22:37:38] "GET /api/last-scrape HTTP/1.1" 200 -
+2026-11-16 22:37:43,620 [INFO] 127.0.0.1 - - [16/Nov/2026 22:37:43] "GET /api/last-scrape HTTP/1.1" 200 -
+2026-11-16 22:37:48,619 [INFO] 127.0.0.1 - - [16/Nov/2026 22:37:48] "GET /api/last-scrape HTTP/1.1" 200 -
+2026-11-16 22:37:53,620 [INFO] 127.0.0.1 - - [16/Nov/2026 22:37:53] "GET /api/last-scrape HTTP/1.1" 200 -
+2026-11-16 22:37:58,622 [INFO] 127.0.0.1 - - [16/Nov/2026 22:37:58] "GET /api/last-scrape HTTP/1.1" 200 -
+2026-11-16 22:38:03,614 [INFO] 127.0.0.1 - - [16/Nov/2026 22:38:03] "GET /api/last-scrape HTTP/1.1" 200 -
+2026-11-16 22:38:08,584 [INFO] 127.0.0.1 - - [16/Nov/2026 22:38:08] "GET /api/last-scrape HTTP/1.1" 200 -
+2026-11-16 22:38:13,619 [INFO] 127.0.0.1 - - [16/Nov/2026 22:38:13] "GET /api/last-scrape HTTP/1.1" 200 -
+2026-11-16 22:38:18,618 [INFO] 127.0.0.1 - - [16/Nov/2026 22:38:18] "GET /api/last-scrape HTTP/1.1" 200 -
+2026-11-16 22:38:23,613 [INFO] 127.0.0.1 - - [16/Nov/2026 22:38:23] "GET /api/last-scrape HTTP/1.1" 200 -
+2026-11-16 22:38:28,615 [INFO] 127.0.0.1 - - [16/Nov/2026 22:38:28] "GET /api/last-scrape HTTP/1.1" 200 -
+2026-11-16 22:38:33,630 [INFO] 127.0.0.1 - - [16/Nov/2026 22:38:33] "GET /api/last-scrape HTTP/1.1" 200 -
+2026-11-16 22:38:38,606 [INFO] 127.0.0.1 - - [16/Nov/2026 22:38:38] "GET /api/last-scrape HTTP/1.1" 200 -
+2026-11-16 22:38:43,619 [INFO] 127.0.0.1 - - [16/Nov/2026 22:38:43] "GET /api/last-scrape HTTP/1.1" 200 -
+2026-11-16 22:38:48,611 [INFO] 127.0.0.1 - - [16/Nov/2026 22:38:48] "GET /api/last-scrape HTTP/1.1" 200 -
+2026-11-16 22:38:53,622 [INFO] 127.0.0.1 - - [16/Nov/2026 22:38:53] "GET /api/last-scrape HTTP/1.1" 200 -
+2026-11-16 22:38:58,624 [INFO] 127.0.0.1 - - [16/Nov/2026 22:38:58] "GET /api/last-scrape HTTP/1.1" 200 -
+2026-11-16 22:39:03,645 [INFO] 127.0.0.1 - - [16/Nov/2026 22:39:03] "GET /api/last-scrape HTTP/1.1" 200 -
+2026-11-16 22:39:08,619 [INFO] 127.0.0.1 - - [16/Nov/2026 22:39:08] "GET /api/last-scrape HTTP/1.1" 200 -
+2026-11-16 22:39:13,631 [INFO] 127.0.0.1 - - [16/Nov/2026 22:39:13] "GET /api/last-scrape HTTP/1.1" 200 -
+2026-11-16 22:39:18,609 [INFO] 127.0.0.1 - - [16/Nov/2026 22:39:18] "GET /api/last-scrape HTTP/1.1" 200 -
+2026-11-16 22:39:23,619 [INFO] 127.0.0.1 - - [16/Nov/2026 22:39:23] "GET /api/last-scrape HTTP/1.1" 200 -
+2026-11-16 22:39:28,613 [INFO] 127.0.0.1 - - [16/Nov/2026 22:39:28] "GET /api/last-scrape HTTP/1.1" 200 -
+2026-11-16 22:39:33,637 [INFO] 127.0.0.1 - - [16/Nov/2026 22:39:33] "GET /api/last-scrape HTTP/1.1" 200 -
+2026-11-16 22:39:38,619 [INFO] 127.0.0.1 - - [16/Nov/2026 22:39:38] "GET /api/last-scrape HTTP/1.1" 200 -
+2026-11-16 22:39:43,636 [INFO] 127.0.0.1 - - [16/Nov/2026 22:39:43] "GET /api/last-scrape HTTP/1.1" 200 -
+2026-11-16 22:39:48,610 [INFO] 127.0.0.1 - - [16/Nov/2026 22:39:48] "GET /api/last-scrape HTTP/1.1" 200 -
+2026-11-16 22:39:53,614 [INFO] 127.0.0.1 - - [16/Nov/2026 22:39:53] "GET /api/last-scrape HTTP/1.1" 200 -
+2026-11-16 22:39:58,606 [INFO] 127.0.0.1 - - [16/Nov/2026 22:39:58] "GET /api/last-scrape HTTP/1.1" 200 -
+2026-11-16 22:40:03,604 [INFO] 127.0.0.1 - - [16/Nov/2026 22:40:03] "GET /api/last-scrape HTTP/1.1" 200 -
+2026-11-16 22:40:08,631 [INFO] 127.0.0.1 - - [16/Nov/2026 22:40:08] "GET /api/last-scrape HTTP/1.1" 200 -
+2026-11-16 22:40:13,627 [INFO] 127.0.0.1 - - [16/Nov/2026 22:40:13] "GET /api/last-scrape HTTP/1.1" 200 -
+2026-11-16 22:40:18,591 [INFO] 127.0.0.1 - - [16/Nov/2026 22:40:18] "GET /api/last-scrape HTTP/1.1" 200 -
+2026-11-16 22:40:23,604 [INFO] 127.0.0.1 - - [16/Nov/2026 22:40:23] "GET /api/last-scrape HTTP/1.1" 200 -
+2026-11-16 22:40:28,634 [INFO] 127.0.0.1 - - [16/Nov/2026 22:40:28] "GET /api/last-scrape HTTP/1.1" 200 -
+2026-11-16 22:40:33,619 [INFO] 127.0.0.1 - - [16/Nov/2026 22:40:33] "GET /api/last-scrape HTTP/1.1" 200 -
+2026-11-16 22:40:38,891 [INFO] 127.0.0.1 - - [16/Nov/2026 22:40:38] "GET / HTTP/1.1" 200 -
+2026-11-16 22:40:39,044 [INFO] 127.0.0.1 - - [16/Nov/2026 22:40:39] "GET /api/last-scrape HTTP/1.1" 200 -
+2026-11-16 22:40:39,109 [INFO] 127.0.0.1 - - [16/Nov/2026 22:40:39] "GET /api/headlines/today HTTP/1.1" 200 -
+2026-11-16 22:40:39,511 [INFO] 127.0.0.1 - - [16/Nov/2026 22:40:39] "GET /api/entities HTTP/1.1" 200 -
+2026-11-16 22:40:40,034 [INFO] 127.0.0.1 - - [16/Nov/2026 22:40:40] "GET /api/similar-groups HTTP/1.1" 200 -
+2026-11-16 22:42:12,057 [INFO] 127.0.0.1 - - [16/Nov/2026 22:42:12] "[33mGET /.well-known/appspecific/com.chrome.devtools.json HTTP/1.1[0m" 404 -
+2026-11-16 22:46:18,269 [INFO] 127.0.0.1 - - [16/Nov/2026 22:46:18] "GET /api/comparison HTTP/1.1" 200 -
+2026-11-16 22:48:44,914 [INFO] 127.0.0.1 - - [16/Nov/2026 22:48:44] "GET /api/comparison HTTP/1.1" 200 -
+2026-11-16 22:48:49,944 [INFO] 127.0.0.1 - - [16/Nov/2026 22:48:49] "GET /api/comparison HTTP/1.1" 200 -
+2026-11-16 22:48:53,890 [INFO] 127.0.0.1 - - [16/Nov/2026 22:48:53] "GET /api/comparison HTTP/1.1" 200 -
+2026-11-16 22:49:02,736 [INFO] 127.0.0.1 - - [16/Nov/2026 22:49:02] "GET /api/comparison HTTP/1.1" 200 -
+2026-11-16 22:53:27,152 [INFO] 127.0.0.1 - - [16/Nov/2026 22:53:27] "GET /api/comparison HTTP/1.1" 200 -
+2026-11-16 22:54:03,183 [INFO] 127.0.0.1 - - [16/Nov/2026 22:54:03] "GET /api/comparison HTTP/1.1" 200 -
+2026-11-16 22:54:05,881 [INFO] 127.0.0.1 - - [16/Nov/2026 22:54:05] "GET /api/comparison HTTP/1.1" 200 -
+2026-11-16 22:54:27,907 [INFO] 127.0.0.1 - - [16/Nov/2026 22:54:27] "GET /api/comparison HTTP/1.1" 200 -
+2026-11-16 22:54:27,932 [INFO] 127.0.0.1 - - [16/Nov/2026 22:54:27] "GET /api/comparison HTTP/1.1" 200 -
+2026-11-16 22:54:29,290 [INFO] 127.0.0.1 - - [16/Nov/2026 22:54:29] "GET /api/comparison HTTP/1.1" 200 -
+2026-11-17 12:16:32,548 [INFO] spaCy model loaded successfully
+2026-11-17 12:16:33,457 [INFO] Scraping THE HINDU...
+2026-11-17 12:16:33,823 [INFO] THE HINDU fetched 60 headlines
+2026-11-17 12:16:34,379 [INFO] Scraping TIMES OF INDIA...
+2026-11-17 12:16:36,089 [INFO] TIMES OF INDIA fetched 46 headlines
+2026-11-17 12:16:36,860 [INFO] Successful sources: ['THE HINDU', 'TIMES OF INDIA']
+2026-11-17 12:16:36,860 [INFO] Failed sources: []
+2026-11-17 12:16:37,366 [INFO] Scraping finished: 60 headlines
+2026-11-17 12:16:37,367 [INFO] Scraping status: success
+2026-11-17 12:16:37,368 [INFO] Daily scraping completed with 60 headlines
+2026-11-17 12:17:37,355 [INFO] [31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on all addresses (0.0.0.0)
+ * Running on http://127.0.0.1:5000
+ * Running on http://192.168.4.236:5000
+2026-11-17 12:17:37,357 [INFO] [33mPress CTRL+C to quit[0m
+2026-11-17 12:17:37,367 [INFO]  * Restarting with stat
+2026-11-17 12:17:42,474 [WARNING]  * Debugger is active!
+2026-11-17 12:17:42,483 [INFO]  * Debugger PIN: 593-947-247
+2026-11-17 12:18:20,083 [INFO] 127.0.0.1 - - [17/Nov/2026 12:18:20] "GET / HTTP/1.1" 200 -
+2026-11-17 12:18:20,244 [INFO] 127.0.0.1 - - [17/Nov/2026 12:18:20] "GET /api/last-scrape HTTP/1.1" 200 -
+2026-11-17 12:18:20,255 [INFO] 127.0.0.1 - - [17/Nov/2026 12:18:20] "GET /api/headlines/today HTTP/1.1" 200 -
+2026-11-17 12:18:20,433 [INFO] 127.0.0.1 - - [17/Nov/2026 12:18:20] "[33mGET /favicon.ico HTTP/1.1[0m" 404 -
+2026-11-17 12:18:20,557 [INFO] 127.0.0.1 - - [17/Nov/2026 12:18:20] "GET /api/entities HTTP/1.1" 200 -
+2026-11-17 12:18:21,493 [INFO] 127.0.0.1 - - [17/Nov/2026 12:18:21] "GET /api/similar-groups HTTP/1.1" 200 -
+2026-11-17 12:18:53,122 [INFO] 127.0.0.1 - - [17/Nov/2026 12:18:53] "[33mGET /.well-known/appspecific/com.chrome.devtools.json HTTP/1.1[0m" 404 -
+2026-11-17 12:25:02,783 [INFO] 127.0.0.1 - - [17/Nov/2026 12:25:02] "GET /api/comparison HTTP/1.1" 200 -
+2026-11-17 12:25:54,463 [INFO] 127.0.0.1 - - [17/Nov/2026 12:25:54] "GET /api/comparison HTTP/1.1" 200 -
+2026-11-17 12:26:05,430 [INFO] 127.0.0.1 - - [17/Nov/2026 12:26:05] "GET /api/comparison HTTP/1.1" 200 -
+2026-11-17 12:52:29,319 [INFO] 127.0.0.1 - - [17/Nov/2026 12:52:29] "GET / HTTP/1.1" 200 -
+2026-11-17 12:52:29,665 [INFO] 127.0.0.1 - - [17/Nov/2026 12:52:29] "GET /api/last-scrape HTTP/1.1" 200 -
+2026-11-17 12:52:29,680 [INFO] 127.0.0.1 - - [17/Nov/2026 12:52:29] "GET /api/headlines/today HTTP/1.1" 200 -
+2026-11-17 12:52:29,687 [INFO] 127.0.0.1 - - [17/Nov/2026 12:52:29] "GET /api/entities HTTP/1.1" 200 -
+2026-11-17 12:52:29,922 [INFO] 127.0.0.1 - - [17/Nov/2026 12:52:29] "[33mGET /favicon.ico HTTP/1.1[0m" 404 -
+2026-11-17 12:52:30,837 [INFO] 127.0.0.1 - - [17/Nov/2026 12:52:30] "GET /api/similar-groups HTTP/1.1" 200 -
+2026-11-17 12:57:53,261 [INFO] 127.0.0.1 - - [17/Nov/2026 12:57:53] "GET /api/comparison HTTP/1.1" 200 -
+2026-11-17 12:58:34,651 [INFO] 127.0.0.1 - - [17/Nov/2026 12:58:34] "GET /api/comparison HTTP/1.1" 200 -
+2026-11-17 12:58:46,871 [INFO]  * Detected change in 'C:\\Users\\Dell\\Documents\\DevopsLab\\news-headline-monitor\\app.py', reloading
+2026-11-17 12:58:47,415 [INFO]  * Restarting with stat
+2026-11-17 12:58:53,233 [WARNING]  * Debugger is active!
+2026-11-17 12:58:53,262 [INFO]  * Debugger PIN: 593-947-247
+2026-11-17 12:59:33,927 [INFO]  * Detected change in 'C:\\Users\\Dell\\Documents\\DevopsLab\\news-headline-monitor\\run_daily.py', reloading
+2026-11-17 12:59:34,457 [INFO]  * Restarting with stat
+2026-11-17 12:59:39,408 [WARNING]  * Debugger is active!
+2026-11-17 12:59:39,434 [INFO]  * Debugger PIN: 593-947-247
+2026-11-17 13:00:02,986 [INFO]  * Detected change in 'C:\\Users\\Dell\\Documents\\DevopsLab\\news-headline-monitor\\run_daily.py', reloading
+2026-11-17 13:00:03,416 [INFO]  * Restarting with stat
+2026-11-17 13:00:07,391 [WARNING]  * Debugger is active!
+2026-11-17 13:00:07,415 [INFO]  * Debugger PIN: 593-947-247
+2026-11-17 13:00:10,949 [INFO]  * Detected change in 'C:\\Users\\Dell\\Documents\\DevopsLab\\news-headline-monitor\\run_daily.py', reloading
+2026-11-17 13:00:11,416 [INFO]  * Restarting with stat
+2026-11-17 13:00:14,304 [WARNING]  * Debugger is active!
+2026-11-17 13:00:14,313 [INFO]  * Debugger PIN: 593-947-247
+2026-11-17 13:00:29,066 [INFO] spaCy model loaded successfully
+2026-11-17 13:00:29,319 [INFO] Scraping THE HINDU...
+2026-11-17 13:00:29,525 [INFO] THE HINDU fetched 59 headlines
+2026-11-17 13:00:29,878 [INFO] Scraping TIMES OF INDIA...
+2026-11-17 13:00:29,982 [INFO] TIMES OF INDIA fetched 45 headlines
+2026-11-17 13:00:30,620 [INFO] Successful sources: ['THE HINDU', 'TIMES OF INDIA']
+2026-11-17 13:00:30,620 [INFO] Failed sources: []
+2026-11-17 13:00:30,844 [INFO] Scraping finished: 60 headlines
+2026-11-17 13:00:30,844 [INFO] Scraping status: success
+2026-11-17 13:00:30,845 [INFO] Daily scraping completed with 60 headlines
+2026-11-17 13:04:49,963 [INFO] spaCy model loaded successfully
+2026-11-17 13:04:50,224 [INFO] Scraping THE HINDU...
+2026-11-17 13:04:50,378 [INFO] THE HINDU fetched 59 headlines
+2026-11-17 13:04:50,697 [INFO] Scraping TIMES OF INDIA...
+2026-11-17 13:04:55,728 [WARNING] Metadata file C:\WINDOWS\system32\config\systemprofile\.cache\selenium\se-metadata.json cannot be parsed: missing field `stats` at line 11 column 1. Using empty metadata
+2026-11-17 13:04:55,729 [WARNING] Metadata file C:\Windows\SysWOW64\config\systemprofile\.cache\selenium\se-metadata.json cannot be parsed: missing field `stats` at line 11 column 1. Using empty metadata
+2026-11-17 13:05:01,255 [INFO] TIMES OF INDIA fetched 0 headlines
+2026-11-17 13:05:03,650 [INFO] Scraping Al Jazeera...
+2026-11-17 13:05:03,932 [INFO] Al Jazeera fetched 25 headlines
+2026-11-17 13:05:04,530 [INFO] Scraping Associated Press...
+2026-11-17 13:05:04,684 [ERROR] Scraping error for Associated Press: 403 Client Error: Forbidden for url: https://apnews.com/rss
+Traceback (most recent call last):
+  File "C:\Users\Dell\Documents\DevopsLab\news-headline-monitor\run_daily.py", line 259, in scrape_static_source
+    response.raise_for_status()
+  File "C:\Users\Dell\Documents\DevopsLab\news-headline-monitor\venv\Lib\site-packages\requests\models.py", line 1021, in raise_for_status
+    raise HTTPError(http_error_msg, response=self)
+requests.exceptions.HTTPError: 403 Client Error: Forbidden for url: https://apnews.com/rss
+2026-11-17 13:05:04,688 [INFO] Scraping The Guardian...
+2026-11-17 13:05:05,390 [INFO] The Guardian fetched 117 headlines
+2026-11-17 13:05:06,240 [INFO] Scraping BBC News...
+2026-11-17 13:05:11,094 [INFO] BBC News fetched 0 headlines
+2026-11-17 13:05:13,452 [INFO] Scraping Reuters...
+2026-11-17 13:05:13,463 [ERROR] Scraping error for Reuters: HTTPSConnectionPool(host='feeds.reuters.com', port=443): Max retries exceeded with url: /reuters/topNews (Caused by NameResolutionError("HTTPSConnection(host='feeds.reuters.com', port=443): Failed to resolve 'feeds.reuters.com' ([Errno 11001] getaddrinfo failed)"))
+Traceback (most recent call last):
+  File "C:\Users\Dell\Documents\DevopsLab\news-headline-monitor\venv\Lib\site-packages\urllib3\connection.py", line 239, in _new_conn
+    sock = connection.create_connection(
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Dell\Documents\DevopsLab\news-headline-monitor\venv\Lib\site-packages\urllib3\util\connection.py", line 60, in create_connection
+    for res in socket.getaddrinfo(host, port, family, socket.SOCK_STREAM):
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Dell\.pyenv\pyenv-win\versions\3.11.0b4\Lib\socket.py", line 961, in getaddrinfo
+    for res in _socket.getaddrinfo(host, port, family, type, proto, flags):
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+socket.gaierror: [Errno 11001] getaddrinfo failed
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "C:\Users\Dell\Documents\DevopsLab\news-headline-monitor\venv\Lib\site-packages\urllib3\connectionpool.py", line 793, in urlopen
+    response = self._make_request(
+               ^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Dell\Documents\DevopsLab\news-headline-monitor\venv\Lib\site-packages\urllib3\connectionpool.py", line 494, in _make_request
+    raise new_e
+  File "C:\Users\Dell\Documents\DevopsLab\news-headline-monitor\venv\Lib\site-packages\urllib3\connectionpool.py", line 470, in _make_request
+    self._validate_conn(conn)
+  File "C:\Users\Dell\Documents\DevopsLab\news-headline-monitor\venv\Lib\site-packages\urllib3\connectionpool.py", line 1125, in _validate_conn
+    conn.connect()
+  File "C:\Users\Dell\Documents\DevopsLab\news-headline-monitor\venv\Lib\site-packages\urllib3\connection.py", line 827, in connect
+    self.sock = sock = self._new_conn()
+                       ^^^^^^^^^^^^^^^^
+  File "C:\Users\Dell\Documents\DevopsLab\news-headline-monitor\venv\Lib\site-packages\urllib3\connection.py", line 246, in _new_conn
+    raise NameResolutionError(self.host, self, e) from e
+urllib3.exceptions.NameResolutionError: HTTPSConnection(host='feeds.reuters.com', port=443): Failed to resolve 'feeds.reuters.com' ([Errno 11001] getaddrinfo failed)
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "C:\Users\Dell\Documents\DevopsLab\news-headline-monitor\venv\Lib\site-packages\requests\adapters.py", line 486, in send
+    resp = conn.urlopen(
+           ^^^^^^^^^^^^^
+  File "C:\Users\Dell\Documents\DevopsLab\news-headline-monitor\venv\Lib\site-packages\urllib3\connectionpool.py", line 847, in urlopen
+    retries = retries.increment(
+              ^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Dell\Documents\DevopsLab\news-headline-monitor\venv\Lib\site-packages\urllib3\util\retry.py", line 555, in increment
+    raise MaxRetryError(_pool, url, reason) from reason  # type: ignore[arg-type]
+    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+urllib3.exceptions.MaxRetryError: HTTPSConnectionPool(host='feeds.reuters.com', port=443): Max retries exceeded with url: /reuters/topNews (Caused by NameResolutionError("HTTPSConnection(host='feeds.reuters.com', port=443): Failed to resolve 'feeds.reuters.com' ([Errno 11001] getaddrinfo failed)"))
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "C:\Users\Dell\Documents\DevopsLab\news-headline-monitor\run_daily.py", line 253, in scrape_static_source
+    response = requests.get(
+               ^^^^^^^^^^^^^
+  File "C:\Users\Dell\Documents\DevopsLab\news-headline-monitor\venv\Lib\site-packages\requests\api.py", line 73, in get
+    return request("get", url, params=params, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Dell\Documents\DevopsLab\news-headline-monitor\venv\Lib\site-packages\requests\api.py", line 59, in request
+    return session.request(method=method, url=url, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Dell\Documents\DevopsLab\news-headline-monitor\venv\Lib\site-packages\requests\sessions.py", line 589, in request
+    resp = self.send(prep, **send_kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Dell\Documents\DevopsLab\news-headline-monitor\venv\Lib\site-packages\requests\sessions.py", line 703, in send
+    r = adapter.send(request, **kwargs)
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Dell\Documents\DevopsLab\news-headline-monitor\venv\Lib\site-packages\requests\adapters.py", line 519, in send
+    raise ConnectionError(e, request=request)
+requests.exceptions.ConnectionError: HTTPSConnectionPool(host='feeds.reuters.com', port=443): Max retries exceeded with url: /reuters/topNews (Caused by NameResolutionError("HTTPSConnection(host='feeds.reuters.com', port=443): Failed to resolve 'feeds.reuters.com' ([Errno 11001] getaddrinfo failed)"))
+2026-11-17 13:05:13,523 [INFO] Scraping CNN...
+2026-11-17 13:05:18,341 [INFO] CNN fetched 0 headlines
+2026-11-17 13:05:20,675 [INFO] Successful sources: ['THE HINDU', 'TIMES OF INDIA', 'Al Jazeera', 'The Guardian', 'BBC News', 'CNN']
+2026-11-17 13:05:20,675 [INFO] Failed sources: ['Associated Press', 'Reuters']
+2026-11-17 13:05:20,861 [INFO] Scraping finished: 85 headlines
+2026-11-17 13:05:20,861 [INFO] Scraping status: partial
+2026-11-17 13:05:20,862 [INFO] Daily scraping completed with 85 headlines
+2026-11-17 13:05:59,770 [INFO] [31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on all addresses (0.0.0.0)
+ * Running on http://127.0.0.1:5000
+ * Running on http://192.168.4.236:5000
+2026-11-17 13:05:59,773 [INFO] [33mPress CTRL+C to quit[0m
+2026-11-17 13:05:59,781 [INFO]  * Restarting with stat
+2026-11-17 13:06:02,737 [WARNING]  * Debugger is active!
+2026-11-17 13:06:02,747 [INFO]  * Debugger PIN: 593-947-247
+2026-11-17 13:06:05,283 [INFO] 127.0.0.1 - - [17/Nov/2026 13:06:05] "GET / HTTP/1.1" 200 -
+2026-11-17 13:06:05,342 [INFO] 127.0.0.1 - - [17/Nov/2026 13:06:05] "GET /api/last-scrape HTTP/1.1" 200 -
+2026-11-17 13:06:05,871 [INFO] 127.0.0.1 - - [17/Nov/2026 13:06:05] "GET /api/headlines/today HTTP/1.1" 200 -
+2026-11-17 13:06:06,091 [INFO] 127.0.0.1 - - [17/Nov/2026 13:06:06] "GET /api/entities HTTP/1.1" 200 -
+2026-11-17 13:06:07,771 [INFO] 127.0.0.1 - - [17/Nov/2026 13:06:07] "GET /api/similar-groups HTTP/1.1" 200 -
+2026-11-17 13:07:58,914 [INFO]  * Detected change in 'C:\\Users\\Dell\\Documents\\DevopsLab\\news-headline-monitor\\run_daily.py', reloading
+2026-11-17 13:08:13,812 [INFO] spaCy model loaded successfully
+2026-11-17 13:08:14,666 [INFO] Scraping THE HINDU...
+2026-11-17 13:08:14,869 [INFO] THE HINDU fetched 59 headlines
+2026-11-17 13:08:15,768 [INFO] Scraping Al Jazeera...
+2026-11-17 13:08:15,932 [INFO] Al Jazeera fetched 25 headlines
+2026-11-17 13:08:16,572 [INFO] Scraping Associated Press...
+2026-11-17 13:08:16,693 [ERROR] Scraping error for Associated Press: 403 Client Error: Forbidden for url: https://apnews.com/rss
+Traceback (most recent call last):
+  File "C:\Users\Dell\Documents\DevopsLab\news-headline-monitor\run_daily.py", line 254, in scrape_static_source
+    response.raise_for_status()
+  File "C:\Users\Dell\Documents\DevopsLab\news-headline-monitor\venv\Lib\site-packages\requests\models.py", line 1021, in raise_for_status
+    raise HTTPError(http_error_msg, response=self)
+requests.exceptions.HTTPError: 403 Client Error: Forbidden for url: https://apnews.com/rss
+2026-11-17 13:08:16,699 [INFO] Scraping The Guardian...
+2026-11-17 13:08:17,528 [INFO] The Guardian fetched 117 headlines
+2026-11-17 13:08:18,385 [INFO] Scraping Reuters...
+2026-11-17 13:08:18,397 [ERROR] Scraping error for Reuters: HTTPSConnectionPool(host='feeds.reuters.com', port=443): Max retries exceeded with url: /reuters/topNews (Caused by NameResolutionError("HTTPSConnection(host='feeds.reuters.com', port=443): Failed to resolve 'feeds.reuters.com' ([Errno 11001] getaddrinfo failed)"))
+Traceback (most recent call last):
+  File "C:\Users\Dell\Documents\DevopsLab\news-headline-monitor\venv\Lib\site-packages\urllib3\connection.py", line 239, in _new_conn
+    sock = connection.create_connection(
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Dell\Documents\DevopsLab\news-headline-monitor\venv\Lib\site-packages\urllib3\util\connection.py", line 60, in create_connection
+    for res in socket.getaddrinfo(host, port, family, socket.SOCK_STREAM):
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Dell\.pyenv\pyenv-win\versions\3.11.0b4\Lib\socket.py", line 961, in getaddrinfo
+    for res in _socket.getaddrinfo(host, port, family, type, proto, flags):
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+socket.gaierror: [Errno 11001] getaddrinfo failed
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "C:\Users\Dell\Documents\DevopsLab\news-headline-monitor\venv\Lib\site-packages\urllib3\connectionpool.py", line 793, in urlopen
+    response = self._make_request(
+               ^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Dell\Documents\DevopsLab\news-headline-monitor\venv\Lib\site-packages\urllib3\connectionpool.py", line 494, in _make_request
+    raise new_e
+  File "C:\Users\Dell\Documents\DevopsLab\news-headline-monitor\venv\Lib\site-packages\urllib3\connectionpool.py", line 470, in _make_request
+    self._validate_conn(conn)
+  File "C:\Users\Dell\Documents\DevopsLab\news-headline-monitor\venv\Lib\site-packages\urllib3\connectionpool.py", line 1125, in _validate_conn
+    conn.connect()
+  File "C:\Users\Dell\Documents\DevopsLab\news-headline-monitor\venv\Lib\site-packages\urllib3\connection.py", line 827, in connect
+    self.sock = sock = self._new_conn()
+                       ^^^^^^^^^^^^^^^^
+  File "C:\Users\Dell\Documents\DevopsLab\news-headline-monitor\venv\Lib\site-packages\urllib3\connection.py", line 246, in _new_conn
+    raise NameResolutionError(self.host, self, e) from e
+urllib3.exceptions.NameResolutionError: HTTPSConnection(host='feeds.reuters.com', port=443): Failed to resolve 'feeds.reuters.com' ([Errno 11001] getaddrinfo failed)
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "C:\Users\Dell\Documents\DevopsLab\news-headline-monitor\venv\Lib\site-packages\requests\adapters.py", line 486, in send
+    resp = conn.urlopen(
+           ^^^^^^^^^^^^^
+  File "C:\Users\Dell\Documents\DevopsLab\news-headline-monitor\venv\Lib\site-packages\urllib3\connectionpool.py", line 847, in urlopen
+    retries = retries.increment(
+              ^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Dell\Documents\DevopsLab\news-headline-monitor\venv\Lib\site-packages\urllib3\util\retry.py", line 555, in increment
+    raise MaxRetryError(_pool, url, reason) from reason  # type: ignore[arg-type]
+    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+urllib3.exceptions.MaxRetryError: HTTPSConnectionPool(host='feeds.reuters.com', port=443): Max retries exceeded with url: /reuters/topNews (Caused by NameResolutionError("HTTPSConnection(host='feeds.reuters.com', port=443): Failed to resolve 'feeds.reuters.com' ([Errno 11001] getaddrinfo failed)"))
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "C:\Users\Dell\Documents\DevopsLab\news-headline-monitor\run_daily.py", line 248, in scrape_static_source
+    response = requests.get(
+               ^^^^^^^^^^^^^
+  File "C:\Users\Dell\Documents\DevopsLab\news-headline-monitor\venv\Lib\site-packages\requests\api.py", line 73, in get
+    return request("get", url, params=params, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Dell\Documents\DevopsLab\news-headline-monitor\venv\Lib\site-packages\requests\api.py", line 59, in request
+    return session.request(method=method, url=url, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Dell\Documents\DevopsLab\news-headline-monitor\venv\Lib\site-packages\requests\sessions.py", line 589, in request
+    resp = self.send(prep, **send_kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Dell\Documents\DevopsLab\news-headline-monitor\venv\Lib\site-packages\requests\sessions.py", line 703, in send
+    r = adapter.send(request, **kwargs)
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Dell\Documents\DevopsLab\news-headline-monitor\venv\Lib\site-packages\requests\adapters.py", line 519, in send
+    raise ConnectionError(e, request=request)
+requests.exceptions.ConnectionError: HTTPSConnectionPool(host='feeds.reuters.com', port=443): Max retries exceeded with url: /reuters/topNews (Caused by NameResolutionError("HTTPSConnection(host='feeds.reuters.com', port=443): Failed to resolve 'feeds.reuters.com' ([Errno 11001] getaddrinfo failed)"))
+2026-11-17 13:08:18,413 [INFO] Scraping TIMES OF INDIA...
+2026-11-17 13:08:18,537 [INFO] TIMES OF INDIA fetched 45 headlines
+2026-11-17 13:08:19,299 [INFO] Scraping BBC News...
+2026-11-17 13:08:19,564 [INFO] BBC News fetched 31 headlines
+2026-11-17 13:08:20,307 [INFO] Scraping CNN...
+2026-11-17 13:08:22,193 [INFO] CNN fetched 50 headlines
+2026-11-17 13:08:22,575 [INFO] Successful sources: ['THE HINDU', 'Al Jazeera', 'The Guardian', 'TIMES OF INDIA', 'BBC News', 'CNN']
+2026-11-17 13:08:22,575 [INFO] Failed sources: ['Associated Press', 'Reuters']
+2026-11-17 13:08:22,813 [INFO] Scraping finished: 175 headlines
+2026-11-17 13:08:22,813 [INFO] Scraping status: partial
+2026-11-17 13:08:22,814 [INFO] Daily scraping completed with 175 headlines
+2026-11-17 13:10:06,999 [INFO] [31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on all addresses (0.0.0.0)
+ * Running on http://127.0.0.1:5000
+ * Running on http://192.168.4.236:5000
+2026-11-17 13:10:07,002 [INFO] [33mPress CTRL+C to quit[0m
+2026-11-17 13:10:07,010 [INFO]  * Restarting with stat
+2026-11-17 13:10:10,292 [WARNING]  * Debugger is active!
+2026-11-17 13:10:10,318 [INFO]  * Debugger PIN: 593-947-247
+2026-11-17 13:10:13,469 [INFO] 127.0.0.1 - - [17/Nov/2026 13:10:13] "GET / HTTP/1.1" 200 -
+2026-11-17 13:10:13,525 [INFO] 127.0.0.1 - - [17/Nov/2026 13:10:13] "GET /api/last-scrape HTTP/1.1" 200 -
+2026-11-17 13:10:13,542 [INFO] 127.0.0.1 - - [17/Nov/2026 13:10:13] "GET /api/headlines/today HTTP/1.1" 200 -
+2026-11-17 13:10:14,204 [INFO] 127.0.0.1 - - [17/Nov/2026 13:10:14] "GET /api/entities HTTP/1.1" 200 -
+2026-11-17 13:10:22,608 [INFO] 127.0.0.1 - - [17/Nov/2026 13:10:22] "GET /api/similar-groups HTTP/1.1" 200 -
+2026-11-17 13:13:09,597 [INFO] 127.0.0.1 - - [17/Nov/2026 13:13:09] "[33mGET /.well-known/appspecific/com.chrome.devtools.json HTTP/1.1[0m" 404 -
+2026-11-17 13:19:43,591 [INFO]  * Detected change in 'C:\\Users\\Dell\\Documents\\DevopsLab\\news-headline-monitor\\run_daily.py', reloading
+2026-11-17 13:25:10,097 [INFO] spaCy model loaded successfully
+2026-11-17 13:25:11,051 [INFO] Scraping THE HINDU...
+2026-11-17 13:25:11,235 [INFO] THE HINDU fetched 59 headlines
+2026-11-17 13:25:12,130 [INFO] Scraping Al Jazeera...
+2026-11-17 13:25:12,296 [INFO] Al Jazeera fetched 25 headlines
+2026-11-17 13:25:12,896 [INFO] Scraping Associated Press...
+2026-11-17 13:25:13,860 [INFO] Associated Press fetched 100 headlines
+2026-11-17 13:25:14,658 [INFO] Scraping Reuters...
+2026-11-17 13:25:15,068 [ERROR] Scraping error for Reuters: 429 Client Error: Too Many Requests for url: https://news.google.com/rss/search?q=when:24h+site:reuters.com&hl=en-US&gl=US&ceid=US:en
+Traceback (most recent call last):
+  File "C:\Users\Dell\Documents\DevopsLab\news-headline-monitor\run_daily.py", line 252, in scrape_static_source
+    response.raise_for_status()
+  File "C:\Users\Dell\Documents\DevopsLab\news-headline-monitor\venv\Lib\site-packages\requests\models.py", line 1021, in raise_for_status
+    raise HTTPError(http_error_msg, response=self)
+requests.exceptions.HTTPError: 429 Client Error: Too Many Requests for url: https://news.google.com/rss/search?q=when:24h+site:reuters.com&hl=en-US&gl=US&ceid=US:en
+2026-11-17 13:25:15,073 [INFO] Scraping The Guardian...
+2026-11-17 13:25:15,983 [INFO] The Guardian fetched 118 headlines
+2026-11-17 13:25:16,842 [INFO] Scraping TIMES OF INDIA...
+2026-11-17 13:25:16,958 [INFO] TIMES OF INDIA fetched 45 headlines
+2026-11-17 13:25:17,757 [INFO] Scraping BBC News...
+2026-11-17 13:25:18,065 [INFO] BBC News fetched 31 headlines
+2026-11-17 13:25:18,812 [INFO] Scraping CNN...
+2026-11-17 13:25:20,900 [INFO] CNN fetched 50 headlines
+2026-11-17 13:25:21,266 [INFO] Successful sources: ['THE HINDU', 'Al Jazeera', 'Associated Press', 'The Guardian', 'TIMES OF INDIA', 'BBC News', 'CNN']
+2026-11-17 13:25:21,266 [INFO] Failed sources: ['Reuters']
+2026-11-17 13:25:21,632 [INFO] Scraping finished: 205 headlines
+2026-11-17 13:25:21,633 [INFO] Scraping status: partial
+2026-11-17 13:25:21,634 [INFO] Daily scraping completed with 205 headlines
+2026-11-17 13:35:09,087 [INFO] 127.0.0.1 - - [17/Nov/2026 13:35:09] "GET /api/comparison HTTP/1.1" 200 -
+2026-11-17 13:37:07,483 [INFO] spaCy model loaded successfully
+2026-11-17 13:37:07,925 [INFO] Scraping THE HINDU...
+2026-11-17 13:37:07,925 [INFO] Requesting THE HINDU (attempt 1/3)
+2026-11-17 13:37:08,049 [INFO] THE HINDU fetched 60 headlines
+2026-11-17 13:37:08,560 [INFO] Scraping Al Jazeera...
+2026-11-17 13:37:08,560 [INFO] Requesting Al Jazeera (attempt 1/3)
+2026-11-17 13:37:08,778 [INFO] Al Jazeera fetched 25 headlines
+2026-11-17 13:37:09,136 [INFO] Scraping Associated Press...
+2026-11-17 13:37:09,136 [INFO] Requesting Associated Press (attempt 1/3)
+2026-11-17 13:37:10,070 [INFO] Associated Press fetched 100 headlines
+2026-11-17 13:37:10,550 [INFO] Scraping Reuters...
+2026-11-17 13:37:10,551 [INFO] Requesting Reuters (attempt 1/3)
+2026-11-17 13:37:10,998 [WARNING] Reuters returned HTTP 429. Retrying in 30 seconds...
+2026-11-17 13:37:40,998 [INFO] Requesting Reuters (attempt 2/3)
+2026-11-17 13:37:42,047 [INFO] Reuters fetched 100 headlines
+2026-11-17 13:37:42,511 [INFO] Scraping The Guardian...
+2026-11-17 13:37:42,511 [INFO] Requesting The Guardian (attempt 1/3)
+2026-11-17 13:37:43,112 [INFO] The Guardian fetched 118 headlines
+2026-11-17 13:37:43,632 [INFO] Scraping TIMES OF INDIA...
+2026-11-17 13:37:43,632 [INFO] Requesting TIMES OF INDIA (attempt 1/3)
+2026-11-17 13:37:43,717 [INFO] TIMES OF INDIA fetched 45 headlines
+2026-11-17 13:37:44,162 [INFO] Scraping BBC News...
+2026-11-17 13:37:44,162 [INFO] Requesting BBC News (attempt 1/3)
+2026-11-17 13:37:44,392 [INFO] BBC News fetched 31 headlines
+2026-11-17 13:37:44,815 [INFO] Scraping CNN...
+2026-11-17 13:37:44,815 [INFO] Requesting CNN (attempt 1/3)
+2026-11-17 13:37:46,736 [INFO] CNN fetched 50 headlines
+2026-11-17 13:37:47,169 [INFO] Successful sources: ['THE HINDU', 'Al Jazeera', 'Associated Press', 'Reuters', 'The Guardian', 'TIMES OF INDIA', 'BBC News', 'CNN']
+2026-11-17 13:37:47,169 [INFO] Failed sources: []
+2026-11-17 13:37:47,544 [INFO] Scraping finished: 235 headlines
+2026-11-17 13:37:47,544 [INFO] Scraping status: success
+2026-11-17 13:37:47,545 [INFO] Daily scraping completed with 235 headlines
+2026-11-17 13:38:17,942 [INFO] [31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on all addresses (0.0.0.0)
+ * Running on http://127.0.0.1:5000
+ * Running on http://192.168.4.236:5000
+2026-11-17 13:38:17,943 [INFO] [33mPress CTRL+C to quit[0m
+2026-11-17 13:38:17,944 [INFO]  * Restarting with stat
+2026-11-17 13:38:19,991 [WARNING]  * Debugger is active!
+2026-11-17 13:38:20,001 [INFO]  * Debugger PIN: 593-947-247
+2026-11-17 13:38:25,749 [INFO] 127.0.0.1 - - [17/Nov/2026 13:38:25] "GET / HTTP/1.1" 200 -
+2026-11-17 13:38:25,796 [INFO] 127.0.0.1 - - [17/Nov/2026 13:38:25] "GET /api/last-scrape HTTP/1.1" 200 -
+2026-11-17 13:38:25,811 [INFO] 127.0.0.1 - - [17/Nov/2026 13:38:25] "GET /api/headlines/today HTTP/1.1" 200 -
+2026-11-17 13:38:25,830 [INFO] 127.0.0.1 - - [17/Nov/2026 13:38:25] "GET /api/entities HTTP/1.1" 200 -
+2026-11-17 13:38:35,025 [INFO] 127.0.0.1 - - [17/Nov/2026 13:38:35] "GET /api/comparison HTTP/1.1" 200 -
+2026-11-17 13:38:40,407 [INFO] 127.0.0.1 - - [17/Nov/2026 13:38:40] "GET /api/similar-groups HTTP/1.1" 200 -
+2026-11-17 13:46:21,018 [INFO]  * Detected change in 'C:\\Users\\Dell\\Documents\\DevopsLab\\news-headline-monitor\\run_daily.py', reloading
+2026-11-17 13:46:21,271 [INFO]  * Restarting with stat
+2026-11-17 13:46:23,190 [WARNING]  * Debugger is active!
+2026-11-17 13:46:23,196 [INFO]  * Debugger PIN: 593-947-247
+2026-11-17 15:43:22,250 [INFO] spaCy model loaded successfully
+2026-11-17 15:43:23,174 [INFO] Scraping THE HINDU...
+2026-11-17 15:43:23,174 [INFO] Requesting THE HINDU (attempt 1/3)
+2026-11-17 15:43:23,367 [INFO] THE HINDU fetched 60 headlines
+2026-11-17 15:43:24,211 [INFO] Scraping Al Jazeera...
+2026-11-17 15:43:24,211 [INFO] Requesting Al Jazeera (attempt 1/3)
+2026-11-17 15:43:24,374 [INFO] Al Jazeera fetched 25 headlines
+2026-11-17 15:43:24,935 [INFO] Scraping Associated Press...
+2026-11-17 15:43:24,935 [INFO] Requesting Associated Press (attempt 1/3)
+2026-11-17 15:43:25,814 [INFO] Associated Press fetched 100 headlines
+2026-11-17 15:43:26,625 [INFO] Scraping Reuters...
+2026-11-17 15:43:26,625 [INFO] Requesting Reuters (attempt 1/3)
+2026-11-17 15:43:27,225 [INFO] Reuters fetched 100 headlines
+2026-11-17 15:43:27,961 [INFO] Scraping The Guardian...
+2026-11-17 15:43:27,961 [INFO] Requesting The Guardian (attempt 1/3)
+2026-11-17 15:43:28,751 [INFO] The Guardian fetched 118 headlines
+2026-11-17 15:43:29,538 [INFO] Scraping TIMES OF INDIA...
+2026-11-17 15:43:29,538 [INFO] Requesting TIMES OF INDIA (attempt 1/3)
+2026-11-17 15:43:29,685 [INFO] TIMES OF INDIA fetched 45 headlines
+2026-11-17 15:43:30,410 [INFO] Scraping BBC News...
+2026-11-17 15:43:30,411 [INFO] Requesting BBC News (attempt 1/3)
+2026-11-17 15:43:30,544 [INFO] BBC News fetched 34 headlines
+2026-11-17 15:43:31,162 [INFO] Scraping CNN...
+2026-11-17 15:43:31,162 [INFO] Requesting CNN (attempt 1/3)
+2026-11-17 15:43:33,035 [INFO] CNN fetched 50 headlines
+2026-11-17 15:43:33,765 [INFO] Successful sources: ['THE HINDU', 'Al Jazeera', 'Associated Press', 'Reuters', 'The Guardian', 'TIMES OF INDIA', 'BBC News', 'CNN']
+2026-11-17 15:43:33,765 [INFO] Failed sources: []
+2026-11-17 15:43:34,492 [INFO] Scraping finished: 235 headlines
+2026-11-17 15:43:34,493 [INFO] Scraping status: success
+2026-11-17 15:43:34,494 [INFO] Daily scraping completed with 235 headlines
+2026-11-17 15:48:18,270 [INFO] [31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on all addresses (0.0.0.0)
+ * Running on http://127.0.0.1:5000
+ * Running on http://192.168.4.236:5000
+2026-11-17 15:48:18,271 [INFO] [33mPress CTRL+C to quit[0m
+2026-11-17 15:48:18,274 [INFO]  * Restarting with stat
+2026-11-17 15:48:20,743 [WARNING]  * Debugger is active!
+2026-11-17 15:48:20,756 [INFO]  * Debugger PIN: 593-947-247
+2026-11-17 15:52:05,912 [INFO]  * Detected change in 'C:\\Users\\Dell\\Documents\\DevopsLab\\news-headline-monitor\\run_daily.py', reloading
+2026-11-17 15:52:06,390 [INFO]  * Restarting with stat
+2026-11-17 15:52:09,726 [WARNING]  * Debugger is active!
+2026-11-17 15:52:09,739 [INFO]  * Debugger PIN: 593-947-247
+2026-11-17 15:52:25,501 [INFO] spaCy model loaded successfully
+2026-11-17 15:52:25,700 [INFO] Scraping THE HINDU...
+2026-11-17 15:52:25,700 [INFO] Requesting THE HINDU (attempt 1/3)
+2026-11-17 15:52:25,851 [INFO] THE HINDU fetched 60 headlines
+2026-11-17 15:52:26,058 [INFO] Scraping Al Jazeera...
+2026-11-17 15:52:26,058 [INFO] Requesting Al Jazeera (attempt 1/3)
+2026-11-17 15:52:26,203 [INFO] Al Jazeera fetched 25 headlines
+2026-11-17 15:52:26,337 [INFO] Scraping Associated Press...
+2026-11-17 15:52:26,337 [INFO] Requesting Associated Press (attempt 1/3)
+2026-11-17 15:52:27,390 [INFO] Associated Press fetched 100 headlines
+2026-11-17 15:52:27,566 [INFO] Scraping Reuters...
+2026-11-17 15:52:27,566 [INFO] Requesting Reuters (attempt 1/3)
+2026-11-17 15:52:28,558 [INFO] Reuters fetched 100 headlines
+2026-11-17 15:52:28,725 [INFO] Scraping The Guardian...
+2026-11-17 15:52:28,725 [INFO] Requesting The Guardian (attempt 1/3)
+2026-11-17 15:52:29,080 [INFO] The Guardian fetched 118 headlines
+2026-11-17 15:52:29,252 [INFO] Scraping TIMES OF INDIA...
+2026-11-17 15:52:29,252 [INFO] Requesting TIMES OF INDIA (attempt 1/3)
+2026-11-17 15:52:29,356 [INFO] TIMES OF INDIA fetched 46 headlines
+2026-11-17 15:52:29,529 [INFO] Scraping BBC News...
+2026-11-17 15:52:29,530 [INFO] Requesting BBC News (attempt 1/3)
+2026-11-17 15:52:29,857 [INFO] BBC News fetched 34 headlines
+2026-11-17 15:52:30,015 [INFO] Scraping CNN...
+2026-11-17 15:52:30,015 [INFO] Requesting CNN (attempt 1/3)
+2026-11-17 15:52:31,823 [INFO] CNN fetched 50 headlines
+2026-11-17 15:52:31,974 [INFO] Successful sources: ['THE HINDU', 'Al Jazeera', 'Associated Press', 'Reuters', 'The Guardian', 'TIMES OF INDIA', 'BBC News', 'CNN']
+2026-11-17 15:52:31,975 [INFO] Failed sources: []
+2026-11-17 15:52:31,976 [INFO] Connecting scraper to MySQL host=127.0.0.1 port=3307 database=news_monitor
+2026-11-17 15:52:32,472 [INFO] Scraping finished: 235 headlines
+2026-11-17 15:52:32,472 [INFO] Scraping status: success
+2026-11-17 15:52:32,475 [INFO] Daily scraping completed with 235 headlines
+2026-11-17 16:56:10,897 [INFO] [31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on all addresses (0.0.0.0)
+ * Running on http://127.0.0.1:5000
+ * Running on http://192.168.4.236:5000
+2026-11-17 16:56:10,897 [INFO] [33mPress CTRL+C to quit[0m
+2026-11-17 16:56:10,899 [INFO]  * Restarting with stat
+2026-11-17 16:56:13,199 [WARNING]  * Debugger is active!
+2026-11-17 16:56:13,205 [INFO]  * Debugger PIN: 593-947-247

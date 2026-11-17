@@ -16,11 +16,12 @@ import mysql.connector
 
 from dotenv import load_dotenv
 from bs4 import BeautifulSoup
-from datetime import datetime
-
+from datetime import datetime,timezone
+from email.utils import parsedate_to_datetime
 # ---------------- ENVIRONMENT ---------------- #
 
-load_dotenv()
+PROJECT_DIR = os.path.dirname(os.path.abspath(__file__))
+load_dotenv(os.path.join(PROJECT_DIR, ".env"))
 
 # ---------------- LOGGING ---------------- #
 
@@ -38,14 +39,36 @@ logger = logging.getLogger(__name__)
 # ---------------- MYSQL ---------------- #
 
 def get_db_connection():
+    """
+    Connect the Jenkins/Windows scraper to the Docker MySQL container
+    through the published host port (3307 -> container port 3306).
+    """
+    db_host = os.getenv("DB_HOST", "127.0.0.1")
+    db_port = int(os.getenv("DB_PORT", "3307"))
+    db_user = os.getenv("DB_USER", "root")
+    db_password = os.getenv("DB_PASSWORD") or os.getenv("MYSQL_ROOT_PASSWORD")
+    db_name = os.getenv("DB_NAME", "news_monitor")
+
+    if not db_password:
+        raise RuntimeError(
+            "Database password is missing. Set DB_PASSWORD or "
+            "MYSQL_ROOT_PASSWORD in the project .env file."
+        )
+
+    logger.info(
+        "Connecting scraper to MySQL host=%s port=%s database=%s",
+        db_host, db_port, db_name
+    )
 
     return mysql.connector.connect(
-        host=os.getenv("DB_HOST", "localhost"),
-        user=os.getenv("DB_USER", "root"),
-        password=os.getenv("DB_PASSWORD", "sanju@2005"),
-        database=os.getenv("DB_NAME", "news_monitor"),
+        host=db_host,
+        port=db_port,
+        user=db_user,
+        password=db_password,
+        database=db_name,
         connection_timeout=15
     )
+
 
 
 # ---------------- SPACY ---------------- #
@@ -95,8 +118,8 @@ except ImportError:
 
 # ---------------- NEWS SOURCES ---------------- #
 
-NEWS_SOURCES = {
 
+NEWS_SOURCES = {
     "THE HINDU": {
         "url": "https://www.thehindu.com/news/feeder/default.rss",
         "type": "static",
@@ -108,13 +131,51 @@ NEWS_SOURCES = {
         ]
     },
 
+    "Al Jazeera": {
+        "url": "https://www.aljazeera.com/xml/rss/all.xml",
+        "type": "static",
+        "selectors": ["h3.gc__title", "span.gc__title__text", "article h3"]
+    },
+
+    
+    "Associated Press": {
+        "url": "https://news.google.com/rss/search?q=when:24h+site:apnews.com&hl=en-US&gl=US&ceid=US:en",
+        "type": "static",
+        "selectors": []
+    },
+
+    "Reuters": {
+        "url": "https://news.google.com/rss/search?q=when:24h+site:reuters.com&hl=en-US&gl=US&ceid=US:en",
+        "type": "static",
+        "selectors": []
+    },
+
+
+    "The Guardian": {
+        "url": "https://www.theguardian.com/international",
+        "type": "static",
+        "selectors": ["h3.card-headline", "span.js-headline-text"]
+    },
+
     "TIMES OF INDIA": {
-        "url": "https://timesofindia.indiatimes.com/rssfeedstopstories.cms",
+    "url": "https://timesofindia.indiatimes.com/rssfeedstopstories.cms",
+    "type": "static",
+    "selectors": []
+    },
+
+    "BBC News": {
+        "url": "http://feeds.bbci.co.uk/news/rss.xml",
+        "type": "static",
+        "selectors": []
+    },
+
+    "CNN": {
+        "url": "http://rss.cnn.com/rss/edition.rss",
         "type": "static",
         "selectors": []
     }
+    }
 
-}
 
 
 # ---------------- NLP ---------------- #
@@ -173,23 +234,133 @@ def extract_entities(text):
     return entities
 
 
+def categorize_headline(text):
+    text_lower = text.lower()
+
+    categories = {
+        'Sports': ['sport', 'game', 'player', 'team', 'match', 'football', 'cricket'],
+        'Politics': ['election', 'government', 'minister', 'parliament'],
+        'Business': ['market', 'economy', 'stock', 'trade', 'company'],
+        'Technology': ['tech', 'ai', 'software', 'digital'],
+        'Health': ['health', 'medical', 'hospital', 'covid'],
+        'World': ['war', 'international', 'country', 'conflict'],
+        'Crime': ['crime', 'arrest', 'police'],
+        'Weather': ['weather', 'storm', 'flood'],
+        'Environment': ['climate', 'pollution']
+    }
+
+    for category, keywords in categories.items():
+        if any(keyword in text_lower for keyword in keywords):
+            return category
+
+    return "General"
+
+
 # ---------------- STATIC SCRAPER ---------------- #
+
 
 def scrape_static_source(source_name, config):
 
     try:
-
         headers = {
-            "User-Agent": "Mozilla/5.0"
+            "User-Agent": (
+                "Mozilla/5.0 (Windows NT 10.0; Win64; x64) "
+                "AppleWebKit/537.36 (KHTML, like Gecko) "
+                "Chrome/120.0.0.0 Safari/537.36"
+            ),
+            "Accept": (
+                "text/html,application/xhtml+xml,"
+                "application/xml,application/rss+xml;q=0.9,*/*;q=0.8"
+            )
         }
 
-        response = requests.get(
-            config["url"],
-            headers=headers,
-            timeout=15
-        )
+        url = config["url"]
+        response = None
 
-        response.raise_for_status()
+        # -------- REQUEST WITH 429 RETRIES -------- #
+
+        max_attempts = 3
+
+        for attempt in range(max_attempts):
+
+            logger.info(
+                f"Requesting {source_name} "
+                f"(attempt {attempt + 1}/{max_attempts})"
+            )
+
+            response = requests.get(
+                url,
+                headers=headers,
+                timeout=20
+            )
+
+            # Handle rate limiting.
+            if response.status_code == 429:
+
+                if attempt == max_attempts - 1:
+                    logger.error(
+                        f"{source_name} is still rate-limited "
+                        f"after {max_attempts} attempts."
+                    )
+                    response.raise_for_status()
+
+                retry_after = response.headers.get("Retry-After")
+
+                wait_time = 30 * (attempt + 1)
+
+                # Retry-After can be seconds or an HTTP date.
+                if retry_after:
+                    try:
+                        wait_time = max(0, int(retry_after))
+
+                    except ValueError:
+                        try:
+                            retry_date = parsedate_to_datetime(
+                                retry_after
+                            )
+
+                            if retry_date.tzinfo is None:
+                                retry_date = retry_date.replace(
+                                    tzinfo=timezone.utc
+                                )
+
+                            wait_time = max(
+                                0,
+                                int(
+                                    (
+                                        retry_date -
+                                        datetime.now(timezone.utc)
+                                    ).total_seconds()
+                                )
+                            )
+
+                        except (ValueError, TypeError, OverflowError):
+                            logger.warning(
+                                f"Could not parse Retry-After header: "
+                                f"{retry_after}. Using backoff."
+                            )
+
+                # Avoid excessively long waits in a Jenkins job.
+                wait_time = min(wait_time, 120)
+
+                logger.warning(
+                    f"{source_name} returned HTTP 429. "
+                    f"Retrying in {wait_time} seconds..."
+                )
+
+                time.sleep(wait_time)
+                continue
+
+            # Raise errors for other unsuccessful HTTP responses.
+            response.raise_for_status()
+            break
+
+        # -------- VERIFY RESPONSE -------- #
+
+        if response is None:
+            raise RuntimeError(
+                f"No response received from {source_name}"
+            )
 
         headlines = set()
 
@@ -200,7 +371,7 @@ def scrape_static_source(source_name, config):
         is_xml = (
             "xml" in content_type
             or "rss" in content_type
-            or ".rss" in config["url"].lower()
+            or ".rss" in url.lower()
         )
 
         # -------- RSS / XML PARSING -------- #
@@ -222,7 +393,6 @@ def scrape_static_source(source_name, config):
                 )
 
                 if title and 15 < len(title) < 300:
-
                     headlines.add(title)
 
         # -------- HTML PARSING -------- #
@@ -234,7 +404,7 @@ def scrape_static_source(source_name, config):
                 "html.parser"
             )
 
-            for selector in config["selectors"]:
+            for selector in config.get("selectors", []):
 
                 elements = soup.select(selector)
 
@@ -246,12 +416,20 @@ def scrape_static_source(source_name, config):
                     )
 
                     if text and 15 < len(text) < 300:
-
                         headlines.add(text)
 
+        # -------- LOG RESULTS -------- #
+
         logger.info(
-            f"{source_name} fetched {len(headlines)} headlines"
+            f"{source_name} fetched "
+            f"{len(headlines)} headlines"
         )
+
+        if not headlines:
+            logger.warning(
+                f"{source_name} returned no headlines. "
+                f"Check its feed URL or HTML selectors."
+            )
 
         return list(headlines)[:30]
 
@@ -261,8 +439,8 @@ def scrape_static_source(source_name, config):
             f"Scraping error for {source_name}: {e}"
         )
 
-        # None means scraping failed.
-        # An empty list means scraping succeeded but found no headlines.
+        # None = scraping failed.
+        # [] = scraping succeeded but found no headlines.
 
         return None
 
@@ -395,7 +573,7 @@ def scrape_all_sources():
 
                 "url": cfg["url"],
 
-                "category": "General",
+                "category": categorize_headline(headline),
 
                 "sentiment": sentiment["score"],
 
