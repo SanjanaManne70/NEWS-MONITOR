@@ -1,357 +1,361 @@
 
 # 📰 News Headline Monitor
 
-### Automated News Collection, NLP-Based Analysis & Historical Headline Comparison
+### Automated News Collection | NLP-Based Analysis | Historical Comparison | AI-Powered Query Assistant
 
-<p align="left">
-  <img src="https://img.shields.io/badge/Python-3.10+-blue?logo=python&logoColor=white" alt="Python">
-  <img src="https://img.shields.io/badge/Flask-3.0-black?logo=flask" alt="Flask">
-  <img src="https://img.shields.io/badge/MySQL-8.0-4479A1?logo=mysql&logoColor=white" alt="MySQL">
-  <img src="https://img.shields.io/badge/NLP-spaCy%20%7C%20TextBlob-green" alt="NLP">
-  <img src="https://img.shields.io/badge/Automation-Jenkins-D24939?logo=jenkins&logoColor=white" alt="Jenkins">
-  <img src="https://img.shields.io/badge/Containerization-Docker-2496ED?logo=docker&logoColor=white" alt="Docker">
+---
+
+## 🎥 Project Demo
+
+<p align="center">
+  <a href="YOUR_YOUTUBE_VIDEO_URL">
+    <img src="docs/demo-thumbnail.png" alt="Watch News Headline Monitor Demo" width="800">
+  </a>
 </p>
+
+<p align="center">
+  <em>Click the thumbnail to watch the project demonstration.</em>
+</p>
+
+> **Note:** Demo video coming soon! The thumbnail and video link will be added once the demonstration is uploaded.
 
 ---
 
 ## 📌 Overview
 
-**News Headline Monitor** is a news collection and analysis platform that gathers headlines from multiple news outlets, processes them using Natural Language Processing (NLP), and presents the results through an interactive web dashboard.
+**News Headline Monitor** is an automated news aggregation and analysis platform that collects headlines from multiple news sources, processes them using Natural Language Processing (NLP), and compares current headlines with historical records to identify new, unchanged, and updated stories.
 
-Instead of manually visiting different news websites, users can monitor headlines, explore sentiment distribution, identify frequently appearing entities, discover similar stories across sources, and compare current headlines with historical coverage.
+The system combines web scraping, NLP techniques, historical data analysis, database management, and Generative AI to transform raw news headlines into structured and meaningful insights.
 
-The system combines web scraping, NLP-based processing, database management, text similarity algorithms, REST APIs, and scheduled automation to provide a centralized news-monitoring experience.
+It also includes an **AI-Powered Query Assistant** that allows users to interact with stored news data using natural language instead of manually writing SQL queries.
 
-## 🎯 Problem Statement
-
-News is published continuously across different media outlets. Monitoring these sources manually creates several challenges:
-
-- **Multiple Sources:** Users need to visit different websites to follow current events.
-- **Changing Headlines:** The same news story may be reported using different wording.
-- **Unstructured Information:** Raw headlines do not directly reveal sentiment, entities, or topics.
-- **Historical Tracking:** Identifying what is new, updated, or unchanged requires comparing previous coverage.
-- **Manual Execution:** Repeatedly running a scraper is inconvenient.
-
-News Headline Monitor addresses these challenges through automated collection, NLP-based processing, historical storage, and headline comparison.
-
-## 📸 Screenshots
+The project is containerized using Docker, with MySQL as the database, Flask as the backend, and Jenkins configured separately to automate the daily scraping process.
 
 ## ✨ Key Features
 
-### 1. Multi-Source News Collection
+### 1. Automated News Collection
 
-- Collects headlines from configured news outlets.
-- Uses `requests` and `BeautifulSoup` for static HTML and RSS content.
-- Supports Selenium-based extraction for dynamically rendered web pages.
-- Removes duplicate headlines during extraction.
-- Limits the number of headlines processed per source.
+- Collects news headlines from multiple news outlets.
+- Supports RSS feeds and HTML-based scraping.
+- Uses Requests and BeautifulSoup for static content extraction.
+- Includes Selenium-based scraping functionality for dynamic web pages.
+- Retrieves up to 30 headlines per configured source during a scraping run.
 
-The standalone daily automation script currently processes The Hindu and Times of India.
+### 2. Natural Language Processing
 
-### 2. Sentiment Analysis
+Each collected headline is processed using NLP techniques:
 
-Uses **TextBlob** to calculate the polarity of each headline.
+- **Sentiment Analysis:** Uses TextBlob to classify headlines as Positive, Negative, or Neutral.
+- **Named Entity Recognition:** Uses spaCy to identify entities such as PERSON, ORG, GPE, EVENT, and PRODUCT.
+- **News Categorization:** Uses rule-based keyword matching to classify headlines into:
+  - Politics
+  - Sports
+  - Business
+  - Technology
+  - Health
+  - World
+  - Crime
+  - Weather
+  - Environment
+  - General
 
-The polarity score is classified into three sentiment categories:
+### 3. Historical Headline Comparison
 
-| Polarity | Sentiment |
-|---|---|
-| Greater than 0.1 | Positive |
-| Less than -0.1 | Negative |
-| Otherwise | Neutral |
+The system compares today's headlines with previously stored headlines, particularly those from the previous day, to identify changes in news coverage.
 
-The dashboard presents sentiment distributions for the collected headlines.
+Headlines are classified into:
 
-### 3. Named Entity Recognition (NER)
+- 🟢 **New:** No sufficiently similar historical headline is found.
+- 🟡 **Updated:** A similar headline exists, but the wording or content has changed.
+- ⚪ **Unchanged:** An exact headline match is found.
 
-Uses **spaCy (`en_core_web_sm`)** to identify relevant named entities in news headlines.
+#### Hybrid Similarity Algorithm
 
-The implementation extracts entities with labels such as:
+The system combines three comparison methods:
 
-- PERSON
-- ORG
-- GPE
-- EVENT
-- PRODUCT
+| Technique | Weight | Purpose |
+|---|---:|---|
+| Sequence Similarity | 25% | Measures textual similarity between headlines |
+| Important Word Overlap | 50% | Measures overlap between meaningful words |
+| Named Entity Overlap | 25% | Compares identified entities |
 
-These entities help identify frequently mentioned people, organizations, places, and other subjects in the news.
-
-### 4. News Category Classification
-
-The Flask application's categorization function uses a rule-based keyword-matching approach.
-
-Configured categories include:
-
-- Sports
-- Politics
-- Business
-- Technology
-- Health
-- World
-- Crime
-- Weather
-- Environment
-- General
-
-### 5. Hybrid Headline Similarity Analysis
-
-A major feature of the project is identifying potentially related headlines even when their wording differs.
-
-The comparison engine combines three similarity signals:
-
-| Similarity Technique | Weight |
-|---|---:|
-| Sequence Similarity | 25% |
-| Important-Word Overlap | 50% |
-| Named-Entity Overlap | 25% |
-
-The combined similarity score is calculated as:
+**Similarity Score:**
 
 ```text
-Combined Score =
-    0.25 × Sequence Similarity
-  + 0.50 × Word Overlap
-  + 0.25 × Entity Overlap
+Similarity Score =
+    (0.25 × Sequence Similarity)
+  + (0.50 × Word Overlap)
+  + (0.25 × Entity Overlap)
 ```
 
-**Comparison Workflow:**
+A similarity threshold of **0.25** is used to identify potential historical matches.
 
-1. Check whether the headline exactly matches a previous headline.
-2. If no exact match exists, compare it with historical headlines.
-3. Calculate the three similarity scores.
-4. Combine the scores using the configured weights.
-5. Identify the best matching historical headline.
-6. Apply the configured similarity threshold to classify the result.
+Exact headline matches are classified as unchanged. Similar but non-identical matches are classified as updated. Headlines without a qualifying historical match are considered new.
 
-The system classifies headlines as:
+The system also tracks previously matched historical records to avoid matching one historical headline with multiple current headlines.
 
-- **UNCHANGED:** An exact headline match is found.
-- **UPDATED:** A sufficiently similar historical headline is found.
-- **NEW:** No historical headline meets the similarity threshold.
+### 4. Similar Story Grouping
 
-The current comparison threshold is `0.25`.
+- Identifies related headlines published by different sources on the same day.
+- Uses SequenceMatcher to calculate textual similarity.
+- Groups headlines when their similarity score exceeds 0.60.
+- Helps identify how different news outlets cover similar stories.
 
-### 6. Similar Stories Across Sources
+### 5. AI-Powered Query Assistant
 
-The project also identifies potentially related headlines published by different news outlets on the same day.
+The platform includes a conversational AI assistant that allows users to ask questions about stored news data in natural language.
 
-Unlike historical comparison, this feature compares headlines from the current day's collection.
+**Example queries:**
 
-The Flask implementation groups headlines when their sequence similarity exceeds `0.6`.
+- Which news source published the highest number of negative headlines?
+- Show me today's technology headlines.
+- How many headlines were collected in the last seven days?
+- Which entities appeared most frequently?
+- Compare sentiment across different news sources.
+- Show the latest headlines related to a particular organization.
 
-This helps users identify stories receiving coverage across multiple outlets.
+#### How It Works
 
-### 7. Historical News Storage
+The Query Assistant follows a controlled architecture that separates AI-based interpretation from database execution.
 
-Uses **MySQL** to maintain collected headlines and scraping information.
+1. **Natural Language Input:** The user enters a question through the dashboard.
+2. **Intent Extraction:** Gemini interprets the question and extracts structured information such as operation, entity, source, sentiment, category, date range, and sorting preference.
+3. **Intent Validation:** Python validates the extracted intent against predefined allowed operations and permitted filters.
+4. **SQL Query Construction:** Python builds the SQL query using predefined query structures and parameterized values.
+5. **Database Execution:** The query is executed against the MySQL database.
+6. **Answer Generation:** Gemini receives the actual database results and converts them into a readable natural language response.
 
-The database stores headline details such as:
+**Important Design Decision:** Gemini does not directly generate or execute SQL queries. Python validates the extracted intent and constructs parameterized SQL queries. This provides greater control over database operations and reduces the risk of unsafe query execution.
 
-- News source
-- Headline text
-- Article/source URL
-- Scraped date and time
-- Category
-- Sentiment score and label
-- Extracted entities
+The assistant supports:
 
-A separate `scrape_logs` table records scraping timestamps, headline counts, and execution status.
+- Headline listing
+- Headline counting
+- Daily headline counts
+- Sentiment breakdown
+- Source-wise breakdown
+- Top entity analysis
 
-A unique database key helps prevent duplicate headline records for the same source and date.
+It also supports conversational follow-up questions using recent browser-provided conversation history. Conversation history is not persisted in the database.
 
-### 8. Interactive Web Dashboard
+### 6. Interactive Dashboard
 
-The frontend is developed using HTML, CSS, and JavaScript.
+The Flask application provides a dashboard to explore collected news data and analysis.
 
-The dashboard provides:
+The backend exposes APIs for:
 
-- Total headline statistics
-- News source-wise coverage
-- Sentiment distribution
-- Trending terms and entities
-- Similar stories across sources
-- Yesterday-versus-today headline comparison
-- Manual scraping functionality
-- Last scraping information
+- Today's headlines
+- Historical comparison
+- Entity analysis
+- Similar story groups
+- Last scraping status
+- AI-powered natural language queries
+- Manual scraping trigger
 
-The frontend communicates with the Flask backend through REST APIs and displays the returned JSON data.
+### 7. Automated Daily Scraping with Jenkins
 
-### 9. Scheduled Automation with Jenkins
+A standalone Python script, `run_daily.py`, is configured to run through Jenkins.
 
-Jenkins is used to schedule the execution of the standalone daily scraping script.
+The automation process:
 
-The configured freestyle Jenkins job executes:
+1. Connects to the MySQL database.
+2. Collects headlines from the configured news sources.
+3. Performs NLP processing.
+4. Identifies successfully scraped and failed sources.
+5. Refreshes current-day records only for sources that were scraped successfully.
+6. Preserves previously stored records for sources that failed.
+7. Inserts the newly collected headlines.
+8. Records the scraping execution status in the database.
 
-```bat
-cd C:\path\to\news-headline-monitor
-call venv\Scripts\activate
-python run_daily.py
-```
+The script distinguishes between:
 
-The local Jenkins job can be configured to execute daily using a cron schedule.
+- **Success:** All configured sources were scraped successfully.
+- **Partial:** Some sources succeeded while others failed.
+- **Failed:** All configured sources failed.
 
-### 10. Docker Containerization
-
-The project includes a Dockerfile and Docker Compose configuration.
-
-The Compose configuration defines:
-
-- A MySQL 8.0 database service.
-- A Flask application service.
-- Persistent MySQL storage through a named Docker volume.
-
-The Dockerfile packages the Flask application and its Python dependencies.
+This source-level handling helps prevent temporary scraping failures from unnecessarily removing previously collected news records.
 
 ---
 
 ## 🏗️ System Architecture
 
-### Overall Architecture
-
 ```text
                    NEWS SOURCES
                         |
-             +----------+----------+
-             |          |          |
-          THE HINDU    TOI      OTHER OUTLETS
-             |          |          |
-             +----------+----------+
+                        v
+              AUTOMATED NEWS SCRAPING
+               Requests / BeautifulSoup
+                    Selenium
                         |
                         v
-                NEWS COLLECTION
-                        |
-             +----------+----------+
-             |                     |
-        STATIC SCRAPING       DYNAMIC SCRAPING
-      Requests + BS4              Selenium
-             |                     |
-             +----------+----------+
+                NLP PROCESSING
+             ---------------------
+             | Sentiment Analysis |
+             | Entity Recognition |
+             | News Categorization|
+             ---------------------
                         |
                         v
-                 NLP PROCESSING
-                        |
-          +-------------+-------------+
-          |             |             |
-       Sentiment      Entities     Category
-       TextBlob        spaCy      Keyword Rules
-          |             |             |
-          +-------------+-------------+
-                        |
-                        v
-                  MYSQL DATABASE
-                        |
-             +----------+----------+
-             |                     |
-       Historical Storage     Scrape Logs
-             |
-             v
-         FLASK BACKEND
-             |
-          REST APIs
-             |
-             v
-       HTML / CSS / JS
-             |
-             v
-       WEB DASHBOARD
-             |
-             v
-       USER INTERFACE
-
-
-          JENKINS AUTOMATION
-                 |
-                 v
-             run_daily.py
-                 |
-                 v
-          Scheduled Scraping
+                 MYSQL DATABASE
+             ---------------------
+             |     Headlines     |
+             |    Scrape Logs    |
+             ---------------------
+                  /          \
+                 /            \
+                v              v
+       FLASK WEB APP       JENKINS JOB
+                |              |
+                v              v
+        INTERACTIVE       DAILY SCRAPING
+         DASHBOARD          AUTOMATION
+                |
+                v
+        AI QUERY ASSISTANT
+                |
+                v
+        GEMINI INTENT EXTRACTION
+                |
+                v
+        PYTHON INTENT VALIDATION
+                |
+                v
+        PARAMETERIZED SQL
+                |
+                v
+        MYSQL QUERY RESULTS
+                |
+                v
+        GEMINI RESPONSE GENERATION
+                |
+                v
+        NATURAL LANGUAGE ANSWER
 ```
-
-### Application Request Flow
-
-```text
-User opens dashboard
-        |
-        v
-Browser requests Flask application
-        |
-        v
-Flask renders index.html
-        |
-        v
-JavaScript calls REST endpoints
-        |
-        v
-Flask retrieves information from MySQL
-        |
-        v
-JSON responses are returned
-        |
-        v
-Dashboard dynamically displays results
-```
-
----
 
 ## 🛠️ Technology Stack
 
 | Component | Technologies |
 |---|---|
-| Programming Language | Python |
-| Frontend | HTML, CSS, JavaScript |
-| Backend | Flask |
-| API Communication | REST APIs, JSON |
+| Backend | Python, Flask |
+| Frontend | HTML, CSS, JavaScript, Bootstrap |
+| Database | MySQL 8.0 |
 | Web Scraping | Requests, BeautifulSoup, Selenium |
-| NLP – Sentiment | TextBlob |
-| NLP – Entity Recognition | spaCy |
-| Database | MySQL |
-| Text Similarity | SequenceMatcher, Set-Based Word Overlap, Entity Overlap |
+| NLP | spaCy, TextBlob |
+| Similarity Analysis | SequenceMatcher, Word Overlap, Entity Overlap |
+| Generative AI | Google Gemini API |
+| Database Connectivity | MySQL Connector |
 | Automation | Jenkins |
 | Containerization | Docker, Docker Compose |
-| WSGI Server | Gunicorn |
-| Configuration | python-dotenv |
+| Production Server | Gunicorn |
+| Environment Management | Python-dotenv |
 
 ---
 
-## 📁 Project Structure
+## 🐳 Docker Architecture
+
+The application uses Docker Compose to manage the Flask backend and MySQL database.
+
+### Services
+
+| Service | Container | Purpose |
+|---|---|---|
+| Flask | `news_flask` | Runs the Flask application using Gunicorn |
+| MySQL | `news_mysql` | Stores headlines and scraping logs |
+
+### Docker Configuration
+
+**Dockerfile**
+
+- Uses Python 3.10 slim as the base image.
+- Installs Python dependencies.
+- Installs the spaCy English language model.
+- Exposes port 5000.
+- Uses Gunicorn to serve the Flask application.
+
+**Docker Compose**
+
+- Creates the Flask and MySQL services.
+- Connects both services through the Docker Compose network.
+- Uses a named volume to persist MySQL data.
+- Maps host port 3307 to MySQL container port 3306.
+- Maps host port 5000 to the Flask application.
+
+### Application Architecture
+
+```text
+                 DOCKER COMPOSE
+                       |
+          +------------+------------+
+          |                         |
+          v                         v
+    FLASK CONTAINER           MYSQL CONTAINER
+      Port: 5000              Port: 3306
+          |                         |
+          +------ Docker Network ---+
+                                    |
+                              Persistent Volume
+                                mysql_data
+```
+
+Jenkins is configured separately and executes the standalone daily scraping script. It is not included as a Docker Compose service in the current configuration.
+
+---
+
+## 📂 Project Structure
 
 ```text
 news-headline-monitor/
 │
+├── app.py
+│   └── Main Flask application, scraping logic,
+│       NLP processing, comparison, and APIs
+│
+├── query_assistant.py
+│   └── Gemini-powered natural language
+│       Query Assistant
+│
+├── run_daily.py
+│   └── Standalone daily scraping script
+│       configured for Jenkins execution
+│
 ├── templates/
 │   └── index.html
+│       └── Dashboard interface
 │
 ├── docs/
-│   └── screenshots/
-│       ├── project-banner.png
-│       └── demo-thumbnail.png
+│   └── demo-thumbnail.png
+│       └── Demo video thumbnail (to be added)
 │
-├── app.py
-├── run_daily.py
 ├── requirements.txt
+│   └── Python dependencies
+│
 ├── Dockerfile
+│   └── Flask application container configuration
+│
 ├── docker-compose.yml
-├── Jenkinsfile
+│   └── Flask and MySQL service configuration
+│
 ├── .env.example
+│   └── Environment variable template
+│
 ├── .gitignore
+│
 └── README.md
 ```
 
+*The structure above illustrates the intended repository organization. Keep only files and folders that actually exist in your repository.*
+
 ---
 
-## ⚙️ Installation and Setup
+## ⚙️ Setup and Installation
 
 ### Prerequisites
 
-Make sure the following are installed:
-
 - Python 3.10
-- MySQL 8.0
-- Git
-- Google Chrome (required if using Selenium-based dynamic scraping)
-- Jenkins (required for scheduled automation)
-- Docker and Docker Compose (optional)
+- Docker Desktop
+- Docker Compose
+- Jenkins (for scheduled automation)
+- Google Gemini API key
 
 ### 1. Clone the Repository
 
@@ -361,234 +365,36 @@ git clone https://github.com/YOUR_USERNAME/news-headline-monitor.git
 cd news-headline-monitor
 ```
 
-Replace `YOUR_USERNAME` with your GitHub username.
-
-### 2. Create a Virtual Environment
-
-```bash
-python -m venv venv
-```
-
-Activate it on Windows:
-
-```bat
-venv\Scripts\activate
-```
-
-Activate it on Linux/macOS:
-
-```bash
-source venv/bin/activate
-```
-
-### 3. Install Dependencies
-
-```bash
-python -m pip install --upgrade pip
-
-pip install -r requirements.txt
-```
-
-### 4. Download the spaCy Language Model
-
-```bash
-python -m spacy download en_core_web_sm
-```
-
-### 5. Configure Environment Variables
+### 2. Configure Environment Variables
 
 Create a `.env` file in the project root.
 
-Use `.env.example` as a reference:
+Example:
 
 ```env
-DB_HOST=localhost
+# MySQL Configuration for Flask inside Docker
+MYSQL_ROOT_PASSWORD=your_mysql_password
+MYSQL_DATABASE=news_monitor
+MYSQL_USER=root
+MYSQL_HOST=mysql
+MYSQL_PORT=3306
+
+# Gemini API
+GEMINI_API_KEY=your_gemini_api_key
+
+# Database Configuration for Jenkins running on host
+DB_HOST=127.0.0.1
+DB_PORT=3307
 DB_USER=root
 DB_PASSWORD=your_mysql_password
 DB_NAME=news_monitor
-
-MYSQL_ROOT_PASSWORD=your_mysql_root_password
-MYSQL_DATABASE=news_monitor
 ```
 
-Replace the placeholder passwords with your actual MySQL credentials.
+**Note:** The Flask container connects to MySQL using the Docker service hostname `mysql` and container port `3306`. The Jenkins script runs separately on the host and connects through `127.0.0.1:3307`.
 
-Never commit `.env` or real database credentials to GitHub.
+Never commit your actual `.env` file or API keys to GitHub.
 
-### 6. Create the MySQL Database
-
-Open MySQL and execute:
-
-```sql
-CREATE DATABASE news_monitor;
-```
-
-Ensure that the database connection configuration matches your local MySQL setup.
-
-### 7. Run the Flask Application
-
-```bash
-python app.py
-```
-
-Open your browser:
-
-```text
-http://127.0.0.1:5000
-```
-
-### 8. Run the Daily Scraper Independently
-
-To execute the standalone scraper:
-
-```bash
-python run_daily.py
-```
-
-This script collects headlines from the two sources currently configured in its `NEWS_SOURCES` dictionary, processes the data, and stores the results in MySQL.
-
----
-
-## 🌐 REST API Endpoints
-
-The Flask backend exposes the following endpoints:
-
-| Endpoint | HTTP Method | Purpose |
-|---|---|---|
-| `/` | GET | Loads the dashboard |
-| `/api/scrape` | POST | Starts manual scraping asynchronously |
-| `/api/last-scrape` | GET | Retrieves the latest scraping information |
-| `/api/headlines/today` | GET | Retrieves today's headlines |
-| `/api/comparison` | GET | Compares today's headlines with yesterday's |
-| `/api/entities` | GET | Retrieves frequently appearing entities |
-| `/api/similar-groups` | GET | Retrieves groups of similar headlines across sources |
-
-The frontend uses JavaScript `fetch()` to communicate with these endpoints.
-
-Example:
-
-```javascript
-fetch('/api/headlines/today')
-    .then(response => response.json())
-    .then(data => {
-        console.log(data);
-    })
-    .catch(error => {
-        console.error('Error fetching headlines:', error);
-    });
-```
-
----
-
-## 🧠 Headline Comparison Algorithm
-
-The historical comparison engine uses a hybrid approach to identify headlines that may describe the same developing story.
-
-### Similarity Components
-
-**1. Sequence Similarity**
-
-Uses Python's `SequenceMatcher` to compare the character sequences of two headlines.
-
-**2. Important-Word Overlap**
-
-Extracts meaningful words, removes common stop words, and compares the overlap between the two sets.
-
-The overlap is calculated using a Jaccard-style ratio:
-
-```text
-Word Overlap =
-    Number of Common Important Words
-    ---------------------------------
-    Number of Unique Words in Both Headlines
-```
-
-**3. Entity Overlap**
-
-Uses extracted named entities to identify shared people, organizations, places, and other relevant entities.
-
-### Combined Similarity
-
-```text
-Combined Score =
-    (0.25 × Sequence Score)
-  + (0.50 × Word Overlap Score)
-  + (0.25 × Entity Overlap Score)
-```
-
-The highest-scoring historical match is used for classification.
-
-The threshold is set to `0.25` in the current implementation.
-
----
-
-## 🤖 Jenkins Automation
-
-Jenkins automates the execution of the standalone scraper.
-
-### Configuration
-
-1. Create a Jenkins freestyle project named `NewsHeadlineMonitor`.
-2. Configure the project to execute the daily scraper.
-3. Add a periodic build trigger.
-4. Configure the desired schedule.
-5. Save and run a test build.
-
-For an 11:00 AM daily schedule:
-
-```text
-0 11 * * *
-```
-
-The Jenkins timezone should be configured as `Asia/Kolkata` if the intended execution time is Indian Standard Time.
-
-### Windows Build Command
-
-```bat
-cd C:\path\to\news-headline-monitor
-
-call venv\Scripts\activate
-
-python run_daily.py
-```
-
-### Expected Execution Flow
-
-```text
-Jenkins Scheduler
-       |
-       v
-Build Triggered
-       |
-       v
-Activate Python Environment
-       |
-       v
-Execute run_daily.py
-       |
-       v
-Scrape News Sources
-       |
-       v
-Perform NLP Processing
-       |
-       v
-Store Results in MySQL
-       |
-       v
-Record Scraping Status
-       |
-       v
-Build Completed
-```
-
----
-
-## 🐳 Docker Setup
-
-The repository includes Docker configuration for running the Flask application and MySQL as separate services.
-
-Build and start the services:
+### 3. Build and Run Using Docker Compose
 
 ```bash
 docker compose up --build -d
@@ -600,27 +406,208 @@ Check running containers:
 docker ps
 ```
 
-View logs:
+View application logs:
 
 ```bash
-docker compose logs -f
+docker compose logs -f flask-app
 ```
 
-Stop the services:
+View MySQL logs:
+
+```bash
+docker compose logs -f mysql
+```
+
+### 4. Access the Application
+
+Open:
+
+```text
+http://localhost:5000
+```
+
+### 5. Stop the Containers
 
 ```bash
 docker compose down
 ```
 
-The Compose configuration uses a named MySQL volume to persist database files.
+To remove containers and the associated named database volume:
+
+```bash
+docker compose down -v
+```
+
+**Warning:** The `-v` option deletes the persisted MySQL data. Use it only when you intentionally want to remove the database volume.
 
 ---
+
+## 🔄 Jenkins Automation
+
+The daily scraping script is designed to be executed independently through Jenkins.
+
+### Execution
+
+```bash
+python run_daily.py
+```
+
+The script connects to the MySQL database through the host-mapped port:
+
+```text
+127.0.0.1:3307
+```
+
+### Automation Workflow
+
+```text
+          JENKINS SCHEDULE
+                 |
+                 v
+          run_daily.py
+                 |
+                 v
+          CONNECT TO MYSQL
+                 |
+                 v
+          SCRAPE NEWS SOURCES
+                 |
+                 v
+          NLP PROCESSING
+                 |
+                 v
+          SOURCE-LEVEL STATUS CHECK
+                 |
+                 v
+          REFRESH SUCCESSFUL SOURCES
+                 |
+                 v
+          INSERT HEADLINES
+                 |
+                 v
+          UPDATE SCRAPE LOGS
+                 |
+                 v
+          EXECUTION STATUS
+```
+
+The standalone script includes retry handling for HTTP 429 responses, source-level success and failure tracking, and database transaction handling.
+
+---
+
+## 🗄️ Database Design
+
+The application uses MySQL to maintain collected headlines and scraping execution history.
+
+### 1. Headlines Table
+
+| Column | Description |
+|---|---|
+| id | Unique headline identifier |
+| source | News source |
+| headline | Headline text |
+| url | Original news URL |
+| scraped_date | Date of collection |
+| scraped_time | Time of collection |
+| category | Assigned news category |
+| sentiment | Sentiment polarity |
+| sentiment_label | Positive, Negative, or Neutral |
+| entities | Extracted named entities stored as JSON |
+| created_at | Record creation timestamp |
+
+A unique key on source, headline, and scraped date helps prevent duplicate records.
+
+### 2. Scrape Logs Table
+
+| Column | Description |
+|---|---|
+| id | Unique log identifier |
+| scrape_datetime | Scraping execution timestamp |
+| total_headlines | Total collected headlines |
+| status | Success, Partial, or Failed |
+| created_at | Record creation timestamp |
+
+---
+
+## 🔌 API Endpoints
+
+| Endpoint | Method | Description |
+|---|---|---|
+| `/` | GET | Loads the dashboard |
+| `/api/query` | POST | Processes natural language queries |
+| `/api/scrape` | POST | Triggers a manual scraping operation |
+| `/api/last-scrape` | GET | Retrieves the latest scraping status |
+| `/api/headlines/today` | GET | Retrieves today's headlines |
+| `/api/comparison` | GET | Retrieves historical headline comparison |
+| `/api/entities` | GET | Retrieves frequently identified entities |
+| `/api/similar-groups` | GET | Retrieves groups of similar headlines |
+
+---
+
+## 🔍 Important Implementation Details
+
+### Historical Comparison
+
+The comparison process combines textual similarity, important-word overlap, and named entity overlap to identify potentially related headlines.
+
+### Query Assistant Security and Reliability
+
+- Uses a predefined list of supported database operations.
+- Validates structured intent before executing a query.
+- Uses parameterized SQL values.
+- Keeps SQL construction under Python application control.
+- Uses actual database results when generating responses.
+- Provides a Python fallback response if Gemini is unavailable.
+
+### Scraping Reliability
+
+- Uses retry handling for HTTP 429 responses in the standalone Jenkins scraper.
+- Distinguishes failed scraping from a successful scrape that returns no headlines.
+- Preserves existing records for sources that fail during the daily scraping process.
+- Uses database transactions and rollback handling.
+
+---
+
+## 🚀 Future Enhancements
+
+- Add authentication and role-based access control.
+- Add advanced analytics and interactive visualizations.
+- Improve news categorization using machine learning.
+- Introduce more robust duplicate and story detection.
+- Add support for additional news sources.
+- Improve scraping reliability and dynamic content handling.
+- Add automated deployment and monitoring.
+- Introduce database migrations and improved database health checks.
+
+---
+
+## 🔐 Security Considerations
+
+Before deploying the application publicly:
+
+- Store API keys and database credentials in environment variables.
+- Do not commit `.env` files.
+- Avoid exposing the MySQL port publicly.
+- Restrict access to the manual scraping endpoint.
+- Add authentication and rate limiting to sensitive endpoints.
+- Configure HTTPS.
+- Disable Flask debug mode in production.
+- Use a dedicated MySQL application user instead of root.
+- Add database readiness checks before starting the Flask application.
+
+---
+
 ## 👩‍💻 Author
 
 **Sanjana Manne**
 
-B.Tech – Computer Science and Engineering
-
-JNTUH, Hyderabad
+B.Tech – Computer Science and Engineering  
+Jawaharlal Nehru Technological University, Hyderabad
 
 ---
+
+## ⭐ Acknowledgements
+
+Built as a hands-on project exploring automated web scraping, Natural Language Processing, database-driven analytics, Generative AI integration, Docker containerization, and CI/CD automation.
+
+If you find this project interesting, consider giving the repository a ⭐!
