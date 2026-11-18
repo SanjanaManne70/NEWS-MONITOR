@@ -7,17 +7,9 @@
 
 ## 🎥 Project Demo
 
-<p align="center">
-  <a href="YOUR_YOUTUBE_VIDEO_URL">
-    <img src="docs/demo-thumbnail.png" alt="Watch News Headline Monitor Demo" width="800">
-  </a>
-</p>
+▶️ **[Click here to watch the News Headline Monitor Demo](https://drive.google.com/file/d/1uzlSUMaRWeQCSZ-ZYIKPYc1TIsWHAj1E/view?usp=sharing)**
 
-<p align="center">
-  <em>Click the thumbnail to watch the project demonstration.</em>
-</p>
-
-> **Note:** Demo video coming soon! The thumbnail and video link will be added once the demonstration is uploaded.
+---
 
 ---
 
