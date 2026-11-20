@@ -1,43 +1,38 @@
-pipeline {
 
+pipeline {
     agent any
 
     stages {
 
-        stage('Build Containers') {
-
+        stage('Checkout') {
             steps {
-
-                bat 'docker-compose build'
-
+                echo 'Pulling latest code from GitHub...'
+                checkout scm
             }
         }
 
-        stage('Start Containers') {
-
+        stage('Build Docker Image') {
             steps {
-
-                bat 'docker-compose up -d'
-
+                echo 'Building News Monitor application image...'
+                bat 'docker build -t news_flask:ci .'
             }
         }
 
-        stage('Run Scraper') {
-
+        stage('Validate Python Code') {
             steps {
-
-                bat 'docker exec news_flask python run_daily.py'
-
+                echo 'Checking Python syntax...'
+                bat 'docker run --rm news_flask:ci python -m compileall -q /app'
             }
         }
+    }
 
-        stage('Check Running Containers') {
+    post {
+        success {
+            echo 'CI pipeline completed successfully!'
+        }
 
-            steps {
-
-                bat 'docker ps'
-
-            }
+        failure {
+            echo 'CI pipeline failed. Check the console output.'
         }
     }
 }
