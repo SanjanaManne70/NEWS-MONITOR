@@ -36,6 +36,10 @@ pipeline {
                                 if errorlevel 1 exit /b 1
 
                                 docker compose -p news-headline-monitor up -d --no-deps --no-build flask-app
+                                echo 'Waiting for Flask application to start...'
+                                timeout /t 10 /nobreak
+
+                                powershell -Command "Invoke-WebRequest -Uri 'http://localhost:5000' -UseBasicParsing -TimeoutSec 10"
                             '''
                         } finally {
                             bat 'if exist ".env" del /f /q ".env"'
