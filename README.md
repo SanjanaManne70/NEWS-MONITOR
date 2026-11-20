@@ -3,13 +3,6 @@
 ### Automated News Collection | NLP-Based Analysis | AI-Powered Query Assistant | CI/CD Automation
 
 ---
-
-## 🎥 Project Demo
-
-▶️ **[Watch the News Headline Monitor Demo](https://drive.google.com/file/d/1uzlSUMaRWeQCSZ-ZYIKPYc1TIsWHAj1E/view?usp=sharing)**
-
----
-
 ## 📌 Overview
 
 **News Headline Monitor** is an automated news aggregation and analysis platform that collects headlines from multiple news sources, processes them using Natural Language Processing (NLP), and compares current headlines with historical records to identify new, unchanged, and updated stories.
@@ -19,6 +12,59 @@ The system combines web scraping, NLP techniques, historical data analysis, data
 It also includes an **AI-Powered Query Assistant** that allows users to interact with stored news data using natural language instead of manually writing SQL queries.
 
 The application uses Flask as the backend, MySQL for persistent storage, Docker for containerization, and Jenkins for automation. A Jenkins CI/CD pipeline integrated with GitHub automates application validation, Docker image creation, and deployment.
+
+---
+
+## 🎥 Project Demo
+
+▶️ **[Watch the News Headline Monitor Demo](https://drive.google.com/file/d/1uzlSUMaRWeQCSZ-ZYIKPYc1TIsWHAj1E/view?usp=sharing)**
+
+---
+---
+
+## 📸 Project Screenshots & DevOps Implementation
+
+Explore the application interface and the automation infrastructure behind News Headline Monitor. Click any screenshot to view it in full size.
+
+### 1. Jenkins CI/CD Pipeline
+
+Automated pipeline execution covering source code checkout, Docker image building, Python validation, application deployment, and post-deployment actions.
+
+<a href="docs/screenshots/jenkins-cicd-pipeline.png">
+  <img src="docs/screenshots/jenkins-cicd-pipeline.png" alt="Jenkins CI/CD Pipeline" width="750">
+</a>
+
+### 2. GitHub Webhook Integration
+
+GitHub push events automatically notify Jenkins and trigger the CI/CD pipeline. The successful HTTP 200 response confirms webhook delivery.
+
+<a href="docs/screenshots/github-webhook.png">
+  <img src="docs/screenshots/github-webhook.png" alt="GitHub Webhook Delivery" width="750">
+</a>
+
+### 3. Automated Application Deployment
+
+Jenkins deploys the updated Flask application through Docker Compose and verifies application availability using a post-deployment HTTP health check.
+
+<a href="docs/screenshots/jenkins-deployment-success.png">
+  <img src="docs/screenshots/jenkins-deployment-success.png" alt="Jenkins Deployment and Health Check" width="750">
+</a>
+
+### 4. Scheduled News Scraping Automation
+
+A separate Jenkins Freestyle job automatically executes the daily scraping process, collects headlines from configured news sources, and stores the results in MySQL.
+
+<a href="docs/screenshots/jenkins-daily-scraper.png">
+  <img src="docs/screenshots/jenkins-daily-scraper.png" alt="Jenkins Daily Scraping Job" width="750">
+</a>
+
+### 5. Docker Containerization
+
+The application and database run as separate Docker containers, with dedicated services and port mappings.
+
+<a href="docs/screenshots/docker-containers.png">
+  <img src="docs/screenshots/docker-containers.png" alt="Docker Flask and MySQL Containers" width="750">
+</a>
 
 ---
 
