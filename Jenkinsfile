@@ -24,6 +24,27 @@ pipeline {
                 bat 'docker run --rm news_flask:ci python -m compileall -q /app'
             }
         }
+        
+        stage('Deploy Application') {
+            steps {
+                withCredentials([file(credentialsId: 'news-monitor-env',
+                                    variable: 'ENV_FILE')]) {
+                    script {
+                        try {
+                            bat '''
+                                copy /Y "%ENV_FILE%" ".env" >nul
+                                if errorlevel 1 exit /b 1
+
+                                docker compose -p news-headline-monitor up -d --no-deps --no-build flask-app
+                            '''
+                        } finally {
+                            bat 'if exist ".env" del /f /q ".env"'
+                        }
+                    }
+                }
+            }
+        }
+
     }
 
     post {

@@ -21,7 +21,7 @@ services:
 
   flask-app:
     build: .
-
+    image: news_flask:ci
     container_name: news_flask
 
     restart: always
@@ -35,5 +35,7 @@ services:
     env_file:
       - .env
 
+
 volumes:
   mysql_data:
+  
