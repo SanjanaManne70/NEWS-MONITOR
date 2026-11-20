@@ -1,15 +1,12 @@
-
 # 📰 News Headline Monitor
 
-### Automated News Collection | NLP-Based Analysis | Historical Comparison | AI-Powered Query Assistant
+### Automated News Collection | NLP-Based Analysis | AI-Powered Query Assistant | CI/CD Automation
 
 ---
 
 ## 🎥 Project Demo
 
-▶️ **[Click here to watch the News Headline Monitor Demo](https://drive.google.com/file/d/1uzlSUMaRWeQCSZ-ZYIKPYc1TIsWHAj1E/view?usp=sharing)**
-
----
+▶️ **[Watch the News Headline Monitor Demo](https://drive.google.com/file/d/1uzlSUMaRWeQCSZ-ZYIKPYc1TIsWHAj1E/view?usp=sharing)**
 
 ---
 
@@ -21,7 +18,9 @@ The system combines web scraping, NLP techniques, historical data analysis, data
 
 It also includes an **AI-Powered Query Assistant** that allows users to interact with stored news data using natural language instead of manually writing SQL queries.
 
-The project is containerized using Docker, with MySQL as the database, Flask as the backend, and Jenkins configured separately to automate the daily scraping process.
+The application uses Flask as the backend, MySQL for persistent storage, Docker for containerization, and Jenkins for automation. A Jenkins CI/CD pipeline integrated with GitHub automates application validation, Docker image creation, and deployment.
+
+---
 
 ## ✨ Key Features
 
@@ -146,7 +145,7 @@ The backend exposes APIs for:
 
 ### 7. Automated Daily Scraping with Jenkins
 
-A standalone Python script, `run_daily.py`, is configured to run through Jenkins.
+A standalone Python script, `run_daily.py`, is configured to run through a Jenkins Freestyle job.
 
 The automation process:
 
@@ -167,62 +166,174 @@ The script distinguishes between:
 
 This source-level handling helps prevent temporary scraping failures from unnecessarily removing previously collected news records.
 
+### 8. Automated CI/CD Pipeline with Jenkins and GitHub
+
+The project includes a separate Jenkins Pipeline job integrated with GitHub to automate application integration and deployment.
+
+Whenever code is pushed to the configured GitHub branch, GitHub sends a webhook notification to Jenkins, triggering the pipeline automatically.
+
+#### CI/CD Pipeline Stages
+
+| Stage | Description |
+|---|---|
+| Checkout | Retrieves the latest source code from GitHub |
+| Docker Image Build | Builds the application Docker image |
+| Python Code Validation | Performs Python syntax validation using `compileall` |
+| Deployment | Deploys the updated Flask application using Docker Compose |
+| Health Check | Verifies application availability through an HTTP request |
+
+#### CI/CD Workflow
+
+```text
+             DEVELOPER
+                 |
+                 v
+          CODE CHANGES
+                 |
+                 v
+          GIT COMMIT & PUSH
+                 |
+                 v
+             GITHUB
+                 |
+                 v
+          GITHUB WEBHOOK
+                 |
+                 v
+              JENKINS
+                 |
+                 v
+         CHECKOUT LATEST CODE
+                 |
+                 v
+         BUILD DOCKER IMAGE
+                 |
+                 v
+        PYTHON SYNTAX VALIDATION
+                 |
+                 v
+        DEPLOY FLASK APPLICATION
+                 |
+                 v
+         APPLICATION HEALTH CHECK
+                 |
+                 v
+          HTTP 200 OK
+                 |
+                 v
+        UPDATED APPLICATION
+```
+
+#### Deployment Strategy
+
+- Jenkins builds the application image using the repository's Dockerfile.
+- Python syntax validation is performed inside the built Docker image.
+- Jenkins uses a secured Jenkins Secret File credential to provide the application environment configuration during deployment.
+- Docker Compose updates the Flask application service.
+- The MySQL database service and its persistent volume are kept separate from the application deployment.
+- A post-deployment HTTP health check verifies that the Flask dashboard is responding successfully.
+
+**Important Design Decision:** The deployment targets only the Flask application service. The MySQL service and its named persistent volume are preserved, preventing application deployments from unnecessarily removing stored headline data.
+
+#### GitHub Webhook Integration
+
+GitHub is configured to send push-event notifications to Jenkins through the GitHub webhook endpoint.
+
+The webhook integration enables:
+
+- Automatic Jenkins pipeline triggering after a GitHub push.
+- Removal of the need for manually starting each CI/CD build.
+- Continuous integration of repository changes.
+- Automated application deployment after successful pipeline execution.
+
+The local Jenkins server is exposed to GitHub through an ngrok HTTPS tunnel for webhook communication during development.
+
+**Note:** The ngrok tunnel is used for development-time connectivity. It is not a permanent cloud hosting solution.
+
 ---
 
 ## 🏗️ System Architecture
 
 ```text
-                   NEWS SOURCES
-                        |
-                        v
-              AUTOMATED NEWS SCRAPING
-               Requests / BeautifulSoup
-                    Selenium
-                        |
-                        v
-                NLP PROCESSING
-             ---------------------
-             | Sentiment Analysis |
-             | Entity Recognition |
-             | News Categorization|
-             ---------------------
-                        |
-                        v
-                 MYSQL DATABASE
-             ---------------------
-             |     Headlines     |
-             |    Scrape Logs    |
-             ---------------------
-                  /          \
-                 /            \
-                v              v
-       FLASK WEB APP       JENKINS JOB
-                |              |
-                v              v
-        INTERACTIVE       DAILY SCRAPING
-         DASHBOARD          AUTOMATION
-                |
-                v
-        AI QUERY ASSISTANT
-                |
-                v
-        GEMINI INTENT EXTRACTION
-                |
-                v
-        PYTHON INTENT VALIDATION
-                |
-                v
-        PARAMETERIZED SQL
-                |
-                v
-        MYSQL QUERY RESULTS
-                |
-                v
-        GEMINI RESPONSE GENERATION
-                |
-                v
-        NATURAL LANGUAGE ANSWER
+                    NEWS SOURCES
+                         |
+                         v
+               AUTOMATED NEWS SCRAPING
+                Requests / BeautifulSoup
+                      Selenium
+                         |
+                         v
+                  NLP PROCESSING
+              ---------------------
+              | Sentiment Analysis |
+              | Entity Recognition |
+              | News Categorization|
+              ---------------------
+                         |
+                         v
+                   MYSQL DATABASE
+              ---------------------
+              |     Headlines     |
+              |    Scrape Logs    |
+              ---------------------
+                    /         \
+                   /           \
+                  v             v
+           FLASK WEB APP    JENKINS JOB
+                  |             |
+                  v             v
+          INTERACTIVE       DAILY SCRAPING
+           DASHBOARD          AUTOMATION
+                  |
+                  v
+           AI QUERY ASSISTANT
+                  |
+                  v
+         GEMINI INTENT EXTRACTION
+                  |
+                  v
+         PYTHON INTENT VALIDATION
+                  |
+                  v
+          PARAMETERIZED SQL
+                  |
+                  v
+          MYSQL QUERY RESULTS
+                  |
+                  v
+         GEMINI RESPONSE GENERATION
+                  |
+                  v
+          NATURAL LANGUAGE ANSWER
+
+
+          SEPARATE CI/CD WORKFLOW
+
+              GITHUB REPOSITORY
+                      |
+                      v
+               GITHUB WEBHOOK
+                      |
+                      v
+                   JENKINS
+                      |
+                      v
+              CHECKOUT SOURCE CODE
+                      |
+                      v
+              BUILD DOCKER IMAGE
+                      |
+                      v
+              PYTHON VALIDATION
+                      |
+                      v
+              DEPLOY FLASK SERVICE
+                      |
+                      v
+                HEALTH CHECK
 ```
+
+---
 
 ## 🛠️ Technology Stack
 
@@ -237,9 +348,11 @@ This source-level handling helps prevent temporary scraping failures from unnece
 | Generative AI | Google Gemini API |
 | Database Connectivity | MySQL Connector |
 | Automation | Jenkins |
+| CI/CD | Jenkins Pipeline, GitHub Webhooks |
 | Containerization | Docker, Docker Compose |
 | Production Server | Gunicorn |
 | Environment Management | Python-dotenv |
+| Webhook Tunneling | ngrok |
 
 ---
 
@@ -258,7 +371,7 @@ The application uses Docker Compose to manage the Flask backend and MySQL databa
 
 **Dockerfile**
 
-- Uses Python 3.10 slim as the base image.
+- Uses Python 3.11 slim as the base image.
 - Installs Python dependencies.
 - Installs the spaCy English language model.
 - Exposes port 5000.
@@ -277,19 +390,21 @@ The application uses Docker Compose to manage the Flask backend and MySQL databa
 ```text
                  DOCKER COMPOSE
                        |
-          +------------+------------+
-          |                         |
-          v                         v
-    FLASK CONTAINER           MYSQL CONTAINER
-      Port: 5000              Port: 3306
-          |                         |
-          +------ Docker Network ---+
-                                    |
-                              Persistent Volume
-                                mysql_data
+           +-----------+-----------+
+           |                       |
+           v                       v
+     FLASK CONTAINER         MYSQL CONTAINER
+       Port: 5000              Port: 3306
+           |                       |
+           +---- Docker Network ---+
+                       |
+                 Persistent Volume
+                    mysql_data
 ```
 
-Jenkins is configured separately and executes the standalone daily scraping script. It is not included as a Docker Compose service in the current configuration.
+Jenkins is configured separately and is not included as a Docker Compose service.
+
+The daily scraper executes independently through the Jenkins Freestyle job. The CI/CD Pipeline job builds and deploys the Flask application.
 
 ---
 
@@ -315,8 +430,13 @@ news-headline-monitor/
 │       └── Dashboard interface
 │
 ├── docs/
-│   └── demo-thumbnail.png
-│       └── Demo video thumbnail (to be added)
+│   └── screenshots/
+│       ├── dashboard.png
+│       ├── jenkins-pipeline.png
+│       ├── deployment-health-check.png
+│       ├── github-webhook.png
+│       ├── docker-containers.png
+│       └── daily-scraper-jenkins.png
 │
 ├── requirements.txt
 │   └── Python dependencies
@@ -326,6 +446,9 @@ news-headline-monitor/
 │
 ├── docker-compose.yml
 │   └── Flask and MySQL service configuration
+│
+├── Jenkinsfile
+│   └── Declarative CI/CD pipeline definition
 │
 ├── .env.example
 │   └── Environment variable template
@@ -343,18 +466,19 @@ news-headline-monitor/
 
 ### Prerequisites
 
-- Python 3.10
+- Python 3.11
 - Docker Desktop
 - Docker Compose
-- Jenkins (for scheduled automation)
+- Jenkins (for automation and CI/CD)
+- Git
 - Google Gemini API key
 
 ### 1. Clone the Repository
 
 ```bash
-git clone https://github.com/YOUR_USERNAME/news-headline-monitor.git
+git clone https://github.com/SanjanaManne70/NEWS-MONITOR.git
 
-cd news-headline-monitor
+cd NEWS-MONITOR
 ```
 
 ### 2. Configure Environment Variables
@@ -382,7 +506,7 @@ DB_PASSWORD=your_mysql_password
 DB_NAME=news_monitor
 ```
 
-**Note:** The Flask container connects to MySQL using the Docker service hostname `mysql` and container port `3306`. The Jenkins script runs separately on the host and connects through `127.0.0.1:3307`.
+**Note:** The Flask container connects to MySQL using the Docker service hostname `mysql` and container port `3306`. The standalone Jenkins scraper runs on the host and connects through `127.0.0.1:3307`.
 
 Never commit your actual `.env` file or API keys to GitHub.
 
@@ -436,9 +560,13 @@ docker compose down -v
 
 ## 🔄 Jenkins Automation
 
-The daily scraping script is designed to be executed independently through Jenkins.
+The project uses two independent Jenkins jobs.
 
-### Execution
+### 1. Daily Scraping Job — Freestyle Project
+
+The daily scraping script is designed to execute independently through a scheduled Jenkins Freestyle job.
+
+**Execution:**
 
 ```bash
 python run_daily.py
@@ -450,28 +578,28 @@ The script connects to the MySQL database through the host-mapped port:
 127.0.0.1:3307
 ```
 
-### Automation Workflow
+#### Automation Workflow
 
 ```text
           JENKINS SCHEDULE
                  |
                  v
-          run_daily.py
+            run_daily.py
                  |
                  v
-          CONNECT TO MYSQL
+           CONNECT TO MYSQL
                  |
                  v
           SCRAPE NEWS SOURCES
                  |
                  v
-          NLP PROCESSING
+           NLP PROCESSING
                  |
                  v
-          SOURCE-LEVEL STATUS CHECK
+        SOURCE-LEVEL STATUS CHECK
                  |
                  v
-          REFRESH SUCCESSFUL SOURCES
+        REFRESH SUCCESSFUL SOURCES
                  |
                  v
           INSERT HEADLINES
@@ -480,10 +608,74 @@ The script connects to the MySQL database through the host-mapped port:
           UPDATE SCRAPE LOGS
                  |
                  v
-          EXECUTION STATUS
+           EXECUTION STATUS
 ```
 
 The standalone script includes retry handling for HTTP 429 responses, source-level success and failure tracking, and database transaction handling.
+
+### 2. CI/CD Job — Jenkins Pipeline
+
+The CI/CD workflow is implemented as a separate Jenkins Pipeline job named:
+
+```text
+News-Headline-CI-CD
+```
+
+It uses the `Jenkinsfile` stored in the GitHub repository.
+
+#### Pipeline Configuration
+
+- Pipeline type: Pipeline
+- Definition: Pipeline script from SCM
+- SCM: Git
+- Repository: `https://github.com/SanjanaManne70/NEWS-MONITOR.git`
+- Branch: `*/main`
+- Script Path: `Jenkinsfile`
+- Build Trigger: GitHub hook trigger for GITScm polling
+
+#### Pipeline Implementation
+
+The pipeline performs the following operations:
+
+1. Checks out the latest repository code.
+2. Builds the Docker image using the repository Dockerfile.
+3. Validates Python syntax inside the Docker image.
+4. Retrieves the application environment configuration through Jenkins credentials.
+5. Deploys only the Flask service using Docker Compose.
+6. Waits for the application to start.
+7. Performs an HTTP health check against the dashboard.
+
+The deployment uses a Jenkins Secret File credential to supply the `.env` configuration. The temporary `.env` file is removed after deployment.
+
+#### Deployment Command
+
+The Flask application is deployed using:
+
+```bash
+docker compose -p news-headline-monitor up -d --no-deps --no-build flask-app
+```
+
+This updates the application service without intentionally recreating the MySQL service.
+
+#### Health Check
+
+After deployment, Jenkins checks the dashboard endpoint:
+
+```text
+http://localhost:5000
+```
+
+A successful HTTP response of `200 OK` indicates that the Flask dashboard is responding.
+
+#### GitHub Webhook
+
+The GitHub repository is configured with a webhook that sends push-event notifications to Jenkins.
+
+The webhook integration enables automatic pipeline triggering whenever code is pushed to the configured branch.
+
+During development, ngrok provides an HTTPS tunnel to the locally running Jenkins server so GitHub can reach its webhook endpoint.
+
+**Note:** The ngrok tunnel must be running and its URL must remain valid for webhook delivery. The current configuration is intended for development-time automation rather than permanent cloud hosting.
 
 ---
 
@@ -558,17 +750,29 @@ The comparison process combines textual similarity, important-word overlap, and 
 - Preserves existing records for sources that fail during the daily scraping process.
 - Uses database transactions and rollback handling.
 
+### CI/CD and Deployment Reliability
+
+- Uses GitHub webhooks to trigger Jenkins builds automatically after pushes.
+- Validates Python syntax before deployment.
+- Uses Docker image builds to package the application.
+- Uses Jenkins credentials to manage deployment environment configuration.
+- Deploys the Flask service separately from the MySQL database.
+- Uses a persistent MySQL volume to preserve stored data.
+- Performs a post-deployment HTTP health check.
+
 ---
 
 ## 🚀 Future Enhancements
 
+- Deploy the application to a cloud hosting platform.
+- Introduce a permanent public dashboard URL.
 - Add authentication and role-based access control.
 - Add advanced analytics and interactive visualizations.
 - Improve news categorization using machine learning.
 - Introduce more robust duplicate and story detection.
 - Add support for additional news sources.
 - Improve scraping reliability and dynamic content handling.
-- Add automated deployment and monitoring.
+- Add advanced application monitoring and logging.
 - Introduce database migrations and improved database health checks.
 
 ---
@@ -586,6 +790,8 @@ Before deploying the application publicly:
 - Disable Flask debug mode in production.
 - Use a dedicated MySQL application user instead of root.
 - Add database readiness checks before starting the Flask application.
+- Secure Jenkins access and webhook configuration.
+- Never expose Jenkins credentials, ngrok tokens, or secret files.
 
 ---
 
@@ -600,6 +806,6 @@ Jawaharlal Nehru Technological University, Hyderabad
 
 ## ⭐ Acknowledgements
 
-Built as a hands-on project exploring automated web scraping, Natural Language Processing, database-driven analytics, Generative AI integration, Docker containerization, and CI/CD automation.
+Built as a hands-on project exploring automated web scraping, Natural Language Processing, database-driven analytics, Generative AI integration, Docker containerization, Jenkins automation, and CI/CD practices.
 
 If you find this project interesting, consider giving the repository a ⭐!
