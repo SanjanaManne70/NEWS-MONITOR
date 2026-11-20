@@ -37,7 +37,7 @@ pipeline {
 
                                 docker compose -p news-headline-monitor up -d --no-deps --no-build flask-app
                                 echo 'Waiting for Flask application to start...'
-                                timeout /t 10 /nobreak
+                                powershell -Command "Start-Sleep -Seconds 10"
 
                                 powershell -Command "Invoke-WebRequest -Uri 'http://localhost:5000' -UseBasicParsing -TimeoutSec 10"
                             '''
